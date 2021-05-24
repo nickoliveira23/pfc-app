@@ -1,10 +1,12 @@
 import React from 'react';
 
-import Header from './Header';
+import './global.css';
+
+import Index from './pages/Index';
 
 function App() {
   return (
-    <Header title="Semana Omnistack"/>
+    <Index />
   );
 }
 
