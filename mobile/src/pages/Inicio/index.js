@@ -1,9 +1,12 @@
+
+
+
 import React, {Component} from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { AntDesign, MaterialIcons  } from '@expo/vector-icons';
 import styles from './styles';
 
-export default class Login extends Component{
+export default class Inicio extends Component{
   render(){
     return(
       <View style={styles.container}>
@@ -13,13 +16,11 @@ export default class Login extends Component{
         </View>
 
         <View style={styles.area2}>
-          <TouchableOpacity style={[styles.botao,{backgroundColor:'transparent',borderColor:'#F0F0F0', marginTop:70}]}>
-            <AntDesign name='facebook-square'size={26} color='blue' style={{position:'absolute',left:30}}/>
-              <Text style={styles.textoBotao}>ENTRAR COM O FACEBOOK</Text>
+          <TouchableOpacity style={[styles.botao,{marginTop:70}]}>
+              <Text>CRIAR CONTA</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={[styles.botao,{backgroundColor:'transparent',borderColor:'#F0F0F0', marginTop:20}]}>
-            <MaterialIcons name="smartphone" size={26} style={{position:'absolute',left:30}}/>
-            <Text style={[styles.textoBotao,{paddingHorizontal:50,fontSize:12}]}>ENTRAR COM O NÚMERO DE TELEFONE</Text>
+          <TouchableOpacity style={[styles.botao,{backgroundColor:'transparent',marginTop:20}]}>
+            <Text>ENTRAR</Text>
           </TouchableOpacity>
           <Text style={styles.txtProb}>Problemas para fazer login?</Text>
         </View>
