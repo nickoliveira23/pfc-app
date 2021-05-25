@@ -21,7 +21,7 @@ export default class Login extends Component{
             <MaterialIcons name="smartphone" size={26} style={{position:'absolute',left:30}}/>
             <Text style={[styles.textoBotao,{paddingHorizontal:50,fontSize:12}]}>ENTRAR COM O NÚMERO DE TELEFONE</Text>
           </TouchableOpacity>
-          <Text style={styles.txtProb}>Problemas para fazer login?</Text>
+          <Text style={styles.txtProb}>Prooblemas para fazer login?</Text>
         </View>
       </View>
     );
