@@ -40,10 +40,17 @@ const styles = StyleSheet.create({
       borderRadius:25,
       borderWidth:1,
       backgroundColor:'rgb(233,0,204)'
+      // borderColor:'#A7A7A7',
+      // borderWidth:1,
+      // width: 315,
+      // height: 53,
+      // alignItems:'center',
+      // justifyContent:'center',
+      // borderRadius:25,
+      // backgroundColor:'red'
     },
     textoBotao:{
-      color:'#F0F0F0',
-      textAlign:'center'
+      color:'#F0F0F0'
     }
   })
 
