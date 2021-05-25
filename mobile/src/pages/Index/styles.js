@@ -6,15 +6,20 @@ export default StyleSheet.create({
         flex: 1,
         paddingHorizontal: 24,
         paddingTop: Constants.statusBarHeight + 210,    
-        backgroundColor: '#FFF'
+        backgroundColor: '#181818'
     },
 
     header: {
         justifyContent: 'center',
         alignItems: 'center',
         paddingBottom: 10,
-        textAlign: 'justify'
+        color: '#FFF'
     },
+
+    details: {
+        color: '#FFF',
+        
+    },  
 
     detailsButton: {
         marginTop: 10,
@@ -24,16 +29,20 @@ export default StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         borderStyle: 'solid',
-        borderWidth: 1
+        borderWidth: 1,
+        borderColor: '#FFF'
+
     },
 
     detailsButtonText: {
-        fontSize: 12
+        fontSize: 12,
+        color: '#FFF'
+
     },
 
     detailsLink: {
+        paddingTop: 15,
         justifyContent: 'center',
         alignItems: 'center',
-        paddingTop: 15
     }
 })
