@@ -6,6 +6,14 @@ import styles from './styles'
 export default function CadCodigo(){
 
     const [codigo, setCodigo] = useState('');
+    const [statusBotao, setBotao] = useState(true);
+
+    const status = ()=>{
+      if (codigo.length == 6){
+        setBotao(false);
+      }
+    }
+
 
     var verificarCodigo = ()=>{
       if (codigo.length != 6){
@@ -13,7 +21,9 @@ export default function CadCodigo(){
       } else {
         alert('Código validado! '+codigo)
       }
+
     }
+
 
     return(
       <View style={styles.container}>
@@ -30,7 +40,7 @@ export default function CadCodigo(){
           </View>
 
           <View style={styles.area2}>
-            <TouchableOpacity onPress={verificarCodigo} style={[styles.botao,{borderColor:'#707070',backgroundColor:null,marginBottom:50}]}>
+            <TouchableOpacity disabled={statusBotao} onPress={verificarCodigo} style={[styles.botao,{borderColor:'#707070',backgroundColor:null,marginBottom:50}]}>
               <Text style={{color:'#707070'}}>Continuar</Text>
             </TouchableOpacity>
           </View>

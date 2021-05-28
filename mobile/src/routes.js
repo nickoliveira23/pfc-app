@@ -9,13 +9,14 @@ import Index from './pages/Index';
 import CadCodigo from './pages/CadCodigo';
 import CadSenha from './pages/CadSenha';
 import CadNascimento from './pages/CadNascimento';
+import estudo from './pages/estudo';
 
 
 export default function Routes() {
     return (
         <NavigationContainer>
             <AppStack.Navigator screenOptions={{ headerShown: false}}>
-               <AppStack.Screen name="CadNascimento" component={CadNascimento} />
+               <AppStack.Screen name="estudo" component={estudo} />
                 {/* <AppStack.Screen name="Numero" component={Numero} /> */}
                 {/* <AppStack.Screen name="Login" component={Login} /> */}
                 {/* <AppStack.Screen name="Inicio" component={Inicio} />*/}
