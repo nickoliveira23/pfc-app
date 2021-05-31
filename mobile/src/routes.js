@@ -1,27 +1,27 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
-const AppStack = createStackNavigator();
-
-import CadNumero from './pages/CadNumero';
 import Index from './pages/Index';
-import CadCodigo from './pages/CadCodigo';
-import CadSenha from './pages/CadSenha';
-import CadNascimento from './pages/CadNascimento';
-import estudo from './pages/estudo';
+import CadSenha from './pages/CadSenha'
+import CadNumero from './pages/CadNumero'
+import CadCodigo from './pages/CadCodigo'
+import CadPerfil from './pages/CadPerfil';
 
+const Stack = createStackNavigator();
+const Tab = createBottomTabNavigator();
 
-export default function Routes() {
-    return (
+export default function Routes(){
+    return(
         <NavigationContainer>
-            <AppStack.Navigator screenOptions={{ headerShown: false}}>
-               <AppStack.Screen name="estudo" component={estudo} />
-                {/* <AppStack.Screen name="Numero" component={Numero} /> */}
-                {/* <AppStack.Screen name="Login" component={Login} /> */}
-                {/* <AppStack.Screen name="Inicio" component={Inicio} />*/}
-
-            </AppStack.Navigator>
-        </ NavigationContainer>
+            <Tab.Navigator screenOptions={{headerShown:'false'}}>
+                <Tab.Screen name='Index' component={Index} />
+                <Tab.Screen name='CadNumero' component={CadNumero} />
+                <Tab.Screen name='CadCodigo' component={CadCodigo} />
+                <Tab.Screen name='CadSenha' component={CadSenha} />
+                <Tab.Screen name='CadPerfil' component={CadPerfil}/>
+            </Tab.Navigator>
+        </NavigationContainer>
     );
 }

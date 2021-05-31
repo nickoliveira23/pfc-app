@@ -4,7 +4,8 @@ const styles = StyleSheet.create({
     container:{
       flex:1,
       padding:40,
-      backgroundColor:'#3B3B3B',
+      // backgroundColor:'#3B3B3B',
+      backgroundColor:'#CCCCCC',
       justifyContent:'center',
       alignItems:'center'
     },
@@ -39,7 +40,8 @@ const styles = StyleSheet.create({
       justifyContent:'center',
       borderRadius:25,
       borderWidth:1,
-      backgroundColor:'rgb(233,0,204)'
+      backgroundColor:'rgba(0,0,0, 0.75)'
+      // backgroundColor:'rgb(233,0,204)'
       // borderColor:'#A7A7A7',
       // borderWidth:1,
       // width: 315,

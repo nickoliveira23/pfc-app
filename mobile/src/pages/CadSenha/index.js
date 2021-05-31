@@ -3,24 +3,16 @@ import { View, Text, ScrollView, TextInput, TouchableOpacity } from 'react-nativ
 import { AntDesign } from '@expo/vector-icons';
 import styles from './styles'
 
-export default function CadSenha(){
+export default function CadSenha({navigation}){
 
     const [senha,setSenha] = useState('');
     const [senhaC,setSenhaC] = useState('');
 
-    var verificarSenha = ()=>{
-      if (senha != senhaC){
-        alert('As duas senhas não coincidem. Verifique a senha novamente');
-      } else{
-        alert('Senha cadastrada com sucesso! '+senha)
-      }
-    }
-
     return(
       <View style={styles.container}>
-        <ScrollView contentContainerStyle={{flexGrow:1}} keyboardShouldPersistTaps='handled'>
+        <ScrollView bounces={false} contentContainerStyle={{flexGrow:1}} keyboardShouldPersistTaps='handled'>
           <View style={styles.area1}>
-            <AntDesign name='left' size={30} style={{alignSelf:'flex-start'}} color='rgba(0,0,0, 0.75)'/>
+            <AntDesign name='left' size={30} style={{alignSelf:'flex-start'}} color='rgba(0,0,0, 0.75)' onPress={()=>navigation.goBack()}/>
             <Text style={styles.txtSenha}>Senha</Text>
             <TextInput maxLength={15} placeholder='Digite sua senha'style={{fontSize:30,fontWeight:'200',height:100,width:300,textAlign:'center'}} onChangeText={(text)=>setSenha(text)}/>
             <Text style={{fontWeight:'200',color:'#707070',marginTop:-35}}>_____________________________________</Text>
@@ -32,7 +24,7 @@ export default function CadSenha(){
           </View>
 
           <View style={styles.area2}>
-            <TouchableOpacity onPress={verificarSenha} style={[styles.botao,{borderColor:'#707070',backgroundColor:null,marginBottom:50}]}>
+            <TouchableOpacity onPress={()=>navigation.navigate('CadPerfil')} style={[styles.botao,{borderColor:'#707070',backgroundColor:null,marginBottom:50}]}>
               <Text style={{color:'#707070'}}>Continuar</Text>
             </TouchableOpacity>
           </View>
