@@ -4,20 +4,22 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 const AppStack = createStackNavigator();
 
-import Login from './pages/Login';
-import Numero from './pages/Numero';
-import Inicio from './pages/Inicio';
+import CadNumero from './pages/CadNumero';
 import Index from './pages/Index';
+import CadCodigo from './pages/CadCodigo';
+import CadSenha from './pages/CadSenha';
+import CadNascimento from './pages/CadNascimento';
+import estudo from './pages/estudo';
 
 
 export default function Routes() {
     return (
         <NavigationContainer>
             <AppStack.Navigator screenOptions={{ headerShown: false}}>
-                    <AppStack.Screen name="Numero" component={Numero} />
+               <AppStack.Screen name="estudo" component={estudo} />
+                {/* <AppStack.Screen name="Numero" component={Numero} /> */}
                 {/* <AppStack.Screen name="Login" component={Login} /> */}
-                {/* <AppStack.Screen name="Inicio" component={Inicio} />
-                <AppStack.Screen name="Index" component={Index} /> */}
+                {/* <AppStack.Screen name="Inicio" component={Inicio} />*/}
 
             </AppStack.Navigator>
         </ NavigationContainer>

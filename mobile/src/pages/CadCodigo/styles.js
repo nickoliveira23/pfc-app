@@ -5,11 +5,11 @@ const styles = StyleSheet.create({
       flex:1,
       paddingTop:50,
       padding:30,
-      backgroundColor:'#F5F5F5'
+      backgroundColor:'#F5F5F5',
     },
     area1:{
       flex:1,
-      alignItems:'center'
+      alignItems:'center',
     },
     area2:{
       flex:1,
@@ -17,8 +17,9 @@ const styles = StyleSheet.create({
       alignItems:'center'
     },
     txtNumero:{
+      textAlign:'center',
       marginTop:60,
-      fontSize:40,
+      fontSize:70,
       fontWeight:'bold',
       color:'rgba(0,0,0, 0.75)'
     },
@@ -30,7 +31,9 @@ const styles = StyleSheet.create({
       flexDirection:'row',
     },
     numero:{
-      color:'rgba(0,0,0, 0.75)'
+      marginTop:10,
+      color:'rgba(0,0,0, 0.75)',
+      fontSize:10
     },
     txtCodigo:{
       marginTop:40,
@@ -38,6 +41,19 @@ const styles = StyleSheet.create({
       color:'rgba(0,0,0,0.46)',
       fontSize:10,
       width:250
+    },
+    botao:{
+      width:315,
+      height:53,
+      alignItems:'center',
+      justifyContent:'center',
+      borderRadius:25,
+      borderWidth:1,
+      backgroundColor:'rgb(233,0,204)'
+    },
+    textoBotao:{
+      color:'#F0F0F0',
+      textAlign:'center'
     }
   })
 

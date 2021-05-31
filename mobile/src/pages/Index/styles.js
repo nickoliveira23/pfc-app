@@ -1,48 +1,57 @@
 import { StyleSheet } from 'react-native';
-import Constants from 'expo-constants';
 
-export default StyleSheet.create({
-    container: {
-        flex: 1,
-        paddingHorizontal: 24,
-        paddingTop: Constants.statusBarHeight + 210,    
-        backgroundColor: '#181818'
+const styles = StyleSheet.create({
+    container:{
+      flex:1,
+      padding:40,
+      backgroundColor:'#3B3B3B',
+      justifyContent:'center',
+      alignItems:'center'
     },
-
-    header: {
-        justifyContent: 'center',
-        alignItems: 'center',
-        paddingBottom: 10,
-        color: '#FFF'
+    logo:{
+      width:283,
+      height:101
     },
-
-    details: {
-        color: '#FFF',
-        
-    },  
-
-    detailsButton: {
-        marginTop: 10,
-        borderRadius: 20,
-        height: 50,
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderStyle: 'solid',
-        borderWidth: 1,
-        borderColor: '#FFF'
-
+    txt:{
+      marginTop:10,
+      textAlign:'center',
+      fontSize:12,
+      color:'#FFFFFF',
     },
-
-    detailsButtonText: {
-        fontSize: 12,
-        color: '#FFF'
-
+    area1:{
+      flex:1,
+      alignItems:'center',
+      justifyContent:'flex-end'
     },
-
-    detailsLink: {
-        paddingTop: 15,
-        justifyContent: 'center',
-        alignItems: 'center',
+    area2:{
+      flex:1,
+      alignItems:'center',
+    },
+    txtProb:{
+      marginTop:30,
+      color:'#F0F0F0',
+      fontSize:10
+    },
+    botao:{
+      width:315,
+      height:53,
+      alignItems:'center',
+      justifyContent:'center',
+      borderRadius:25,
+      borderWidth:1,
+      backgroundColor:'rgb(233,0,204)'
+      // borderColor:'#A7A7A7',
+      // borderWidth:1,
+      // width: 315,
+      // height: 53,
+      // alignItems:'center',
+      // justifyContent:'center',
+      // borderRadius:25,
+      // backgroundColor:'red'
+    },
+    textoBotao:{
+      color:'#F0F0F0'
     }
-})
+  })
+
+  export default styles;
