@@ -10,7 +10,7 @@ export default function Index( {navigation} ){
     return(
       <View style={styles.container}>
         <View style={styles.area1}>
-          <Image source={require('../../assets/wonderLogo2.png')} style={styles.logo}/>
+          <Image source={require('../../assets/wonderDark.png')} style={styles.logo}/>
           <Text style={styles.txt}> Ao tocar em Criar conta ou Entrar, você concorda com os nossos Termos. Saiba como processamos osseus dados em nossa Política de Privacidade e Política de Cookies.</Text>
         </View>
 
