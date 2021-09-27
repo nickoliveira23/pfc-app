@@ -9,8 +9,9 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 
 export default function CadPerfil( {navigation} ){
 
-    const [idade,setIdade] = useState(18);
-    const [sexo,setSexo] = useState('');
+    const [name,setNome] = useState('');
+    const [age,setIdade] = useState('');
+    const [gender,setSexo] = useState('');
 
     return(
         <View style={{flex:1}}>
@@ -21,7 +22,7 @@ export default function CadPerfil( {navigation} ){
                 </View>
                 <View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
                     <TouchableOpacity onPress={()=>navigation.navigate('Home')}>
-                        <Text style={{color:'#ff8c00ad',left:20, fontSize:15}}>Concluido</Text>
+                        <Text style={{color:'#ff8c00ad',top:10, left:20, fontSize:15}}>Concluido</Text>
                     </TouchableOpacity>
                 </View>
             </View>
@@ -32,14 +33,13 @@ export default function CadPerfil( {navigation} ){
                 <View style={{borderBottomColor:'#CCCCCC',borderBottomWidth:1,borderTopWidth:1,borderTopColor:'#CCCCCC',paddingHorizontal:15,paddingVertical:15,backgroundColor:'#FFFFFF'}}>
                     <View style={{borderBottomWidth:1,borderBottomColor:'#CCCCCC',paddingBottom:15}}>
                         <Text style={styles.titulos}>   NOME</Text>
-                        <TextInput keyboardType='default' clearButtonMode='always' maxLength={25} style={styles.textInput}/>
+                        <TextInput keyboardType='default' clearButtonMode='always' maxLength={25} style={styles.textInput} onChangeText={(text)=>setNome(text)}/>
                     </View>
                     <View style={{marginTop:10,borderBottomWidth:1,borderBottomColor:'#CCCCCC',paddingBottom:15}}>
                         <View style={{flexDirection:'row'}}>
                             <Text style={styles.titulos}>   IDADE</Text>
-                            <Text style={{fontSize:18,color:'gray',marginLeft:10}}>{idade.toFixed(0)}</Text>
                         </View>
-                        <Slider value={idade} minimumValue={18} maximumValue={99} onValueChange={(value)=>setIdade(value)} minimumTrackTintColor='#d813ad'/>
+                        <TextInput keyboardType='numeric' clearButtonMode='always' maxLength={2} style={styles.textInput} onChangeText={(text)=>setIdade(text)}/>
                     </View>
                     <View style={{marginTop:10,borderBottomWidth:1,borderBottomColor:'#CCCCCC',paddingBottom:15}}>
                         <Text style={styles.titulos}>   SEXO</Text>

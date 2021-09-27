@@ -1,56 +1,73 @@
 import React,{useState} from 'react';
-import {Text, View, Dimensions, Image, TouchableOpacity, StatusBar, ImageBackground} from 'react-native';
-import { FontAwesome5, FontAwesome, Entypo, AntDesign, Ionicons } from '@expo/vector-icons';
-import { ScrollView } from 'react-native-gesture-handler';
+import {
+    ScrollView,
+    Text,
+    TouchableOpacity,
+    ImageBackground,
+    View,
+    FlatList,
+    Image
+  } from "react-native";
+  import { FontAwesome, Ionicons, AntDesign } from '@expo/vector-icons';
+  import data from "../../assets/dados/data";
+  import styles, { DARK_GRAY } from "../../assets/styles/index";
 
-import styles from './styles';
-
-
-export default function Conversas( {navigation} ){
-
-    const user = [
-        {key:1, nome: 'Ney', status: 'Online', uri: require('../../assets/neymar.jpg')},
-        {key:1, nome: 'Cat', status: 'Offline', uri: require('../../assets/a9.jpeg')},
-        {key:1, nome: 'Camila', status: 'Online', uri: require('../../assets/a1.jpg')},
-        {key:1, nome: 'Fernanda', status: 'Online', uri: require('../../assets/a10.jpeg')},
-        {key:1, nome: 'Jessica', status: 'Online', uri: require('../../assets/a8.jpg')},
-        {key:1, nome: 'Ney', status: 'Online', uri: require('../../assets/a7.jpg')},
-        {key:1, nome: 'Ney', status: 'Online', uri: require('../../assets/a6.jpg')},
-        {key:1, nome: 'Ney', status: 'Online', uri: require('../../assets/a5.jpg')},
-        {key:1, nome: 'Ney', status: 'Online', uri: require('../../assets/a4.jpg')},
-        {key:1, nome: 'Ney', status: 'Online', uri: require('../../assets/a3.jpg')},
-        {key:1, nome: 'Ney', status: 'Online', uri: require('../../assets/a2.jpg')},
-        {key:1, nome: 'Ney', status: 'Online', uri: require('../../assets/bruna.jpg')},
-    ]
-
-    let gerarUsers = (dados,i)=>{
-        return (
-            <TouchableOpacity onPress={()=>{setConversa(dados.nome); setStatus(dados.status)}}>
-                <View key={i} >
-                    <Image source={dados.uri} style={[styles.matches,{width:80,height:80,borderRadius:80}]} />
-                </View>
-            </TouchableOpacity>
-        );
-    }
-
-    const [nomeConversa,setConversa] = useState('');
-    const [status,setStatus] = useState('');
+  export default function Conversas( {navigation} ){
+    
 
     return(
-
-        <View style={styles.container}>
-            <StatusBar barStyle='dark-content'/>
-            <View style={{flex:0.11,backgroundColor:"red"}}>
-
+      <ImageBackground
+        style={styles.bg}
+      >
+        <View style={styles.containerMessages}>
+          <View style={styles.top}>
+            <View style={{marginLeft:10}}>
+            <Text style={styles.title}>Messages</Text>
             </View>
+            <TouchableOpacity>
+            <FontAwesome name="ellipsis-v" size={24} color={DARK_GRAY} />
+            </TouchableOpacity>
+          </View>
+    
+           <FlatList style={{flex:1,paddingHorizontal:10}}
+            data={data}
+            keyExtractor={(item, index) => index.toString()}
+            renderItem={({ item }) => (
+              <TouchableOpacity>
+                <View style={styles.containerMessage}>
+                  <Image source={item.uri} style={styles.avatar} />
+                  <View>
+                    <Text>{item.name}</Text>
+                    <Text style={styles.message}>lastMessage</Text>
+                  </View>
+                </View>
+              </TouchableOpacity>
+            )}
+          />
+            <View style={{flex:0.09,paddingTop:5,flexDirection:'row',justifyContent:'space-around',borderWidth:1,borderColor:'rgb(196, 196, 196)',backgroundColor:'rgb(232, 232, 232)'}}>
+              <View>
+                  <TouchableOpacity onPress={()=>navigation.navigate('CadPerfil')}>
+                      <Ionicons name="person-outline" size={28} color="#808080" />
+                      <Text style={{fontSize:10,textAlign:'center'}}>Perfil</Text>
+                  </TouchableOpacity>
+              </View>
 
-            <View style={{flex:1,backgroundColor:'#FFFFFF',alignItems:'center',justifyContent:'center'}}>
-                <ScrollView horizontal={true}>
-                    <View style={{flexDirection:'row',paddingHorizontal:5}}>
-                        {user.map((dados,i)=>gerarUsers(dados,i))}
-                    </View>
-                </ScrollView>
-            </View>
+              <View >
+                  <TouchableOpacity>
+                      <AntDesign name="home" size={31} color="#808080" onPress={()=>navigation.navigate('Home')} />
+                      <Text style={{fontSize:10,textAlign:'center'}}>Match</Text>
+                  </TouchableOpacity>
+              </View>
+
+              <View>
+                  <TouchableOpacity onPress={()=>navigation.navigate('Conversas')}>
+                      <Ionicons name="ios-chatbubbles-outline" size={28} color="#808080" />
+                      <Text style={{fontSize:10,marginLeft:-10}}>Conversas</Text>
+                  </TouchableOpacity>
+              </View>
+          </View>            
         </View>
-    );
-}
+      </ImageBackground>
+      );
+  }
+    

@@ -60,7 +60,7 @@ export default function Chat( {navigation} ){
 
             </View>
             
-            <View style={{flex:1,backgroundColor:'#FFFFFF',alignItems:'center',justifyContent:'center'}}>
+            {/* <View style={{flex:1,backgroundColor:'#FFFFFF',alignItems:'center',justifyContent:'center'}}>
                 <Entypo name="chat" size={200} color="#00000073" />
             </View>
             <View style={{height:140}}>
@@ -70,7 +70,7 @@ export default function Chat( {navigation} ){
                         {user.map((dados,i)=>gerarUsers(dados,i))}
                     </View>
                 </ScrollView>
-            </View>
+            </View> */}
         </View>
     );
 }

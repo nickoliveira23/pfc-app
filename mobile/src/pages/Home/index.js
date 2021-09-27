@@ -1,11 +1,11 @@
 import React,{useState} from 'react';
-import {Text, View, Dimensions, Button, Slider, Image, TouchableOpacity, StatusBar, ImageBackground, Modal, TextInput, Alert } from 'react-native';
-import { FontAwesome5, FontAwesome, AntDesign, Entypo, Ionicons, EvilIcons} from '@expo/vector-icons';
+import {Text, View, Dimensions, Button, Image, TouchableOpacity, StatusBar, ImageBackground } from 'react-native';
+import { FontAwesome5, FontAwesome, AntDesign, Entypo, Ionicons} from '@expo/vector-icons';
 import { ScrollView } from 'react-native-gesture-handler';
 import Swiper from 'react-native-deck-swiper';
 
 import styles from './styles';
-import data from './data'
+import data from '../../assets/dados/data'
 
 
 export default function Home({navigation}){
@@ -21,10 +21,10 @@ export default function Home({navigation}){
                         <View style={{backgroundColor:'',width:150}}>
                             <TouchableOpacity activeOpacity={0.6} onPress={()=>{}}>
                                 <View>
-                                    <Text style={{marginLeft:-10,color:'#CCCCCC',fontSize:60,fontWeight:'300'}}>19</Text>
+                                    <Text style={{marginLeft:-10,color:'#CCCCCC',fontSize:60,fontWeight:'300'}}>{card.age}</Text>
                                 </View>
                                 <View>
-                                    <Text style={{/*color:'#CCCCCC'*/color:'#ff8c00',fontSize:35,fontWeight:'300'}}>Neymar</Text>
+                                    <Text style={{/*color:'#CCCCCC'*/color:'#ff8c00',fontSize:35,fontWeight:'300'}}>{card.name}</Text>
                                 </View>
                                 <View>
                                     <Text style={{color:'#ffffffb8'}}>SP, Mogi das Cruzes</Text>
@@ -97,22 +97,23 @@ export default function Home({navigation}){
                     stackSize={3}
                     infinite={true}
                     animateOverlayLabelsOpacity={true}
+                    verticalSwipe={false}
                     disableBottomSwipe
                     
                     overlayLabels={{
                         left: {
-                            title: ' NOPE',
+                            title: 'NOPE',
                             style: {
                                 label:{
                                     borderColor:'red',
                                     borderWidth:5,
-                                    fontSize:30,
+                                    fontSize:25,
                                     color:'red',
                                     justifyContent:'center',
                                     alignItems:'center',
                                     marginLeft:200,
                                     marginRight:50,
-                                    marginTop:300,
+                                    marginTop:400,
                                     padding:30,
                                     transform:[{rotate:'-14deg'}]
                                 }
@@ -124,7 +125,7 @@ export default function Home({navigation}){
                             }
                         },
                         right: {
-                            title: '   LIKE',
+                            title: 'LIKE',
                             style: {
                                 label:{
                                     borderColor:'green',
@@ -135,7 +136,7 @@ export default function Home({navigation}){
                                     alignItems:'center',
                                     marginLeft:50,
                                     marginRight:200,
-                                    marginTop:300,
+                                    marginTop:400,
                                     padding:30,
                                     transform:[{rotate:'14deg'}]
                                 }
@@ -175,30 +176,31 @@ export default function Home({navigation}){
                     }}
                     // onSwiper={onSwiped} #rgba(153, 50, 205, 0.73) "#ff8c00ad"    rgba(255, 20, 147, 0.60)
                 />
+                
             </View>
             {/*Navegacao*/}
-            {/* <View style={{flex:0.08,flexDirection:'row',justifyContent:'space-around',borderWidth:1,borderColor:'rgb(196, 196, 196)',backgroundColor:'rgb(232, 232, 232)'}}>
-                <View style={{paddingTop:5}}>
+             <View style={{flex:0.09,paddingTop:5,flexDirection:'row',justifyContent:'space-around',borderWidth:1,borderColor:'rgb(196, 196, 196)',backgroundColor:'rgb(232, 232, 232)'}}>
+                <View>
                     <TouchableOpacity onPress={()=>navigation.navigate('CadPerfil')}>
                         <Ionicons name="person-outline" size={28} color="#808080" />
                         <Text style={{fontSize:10,textAlign:'center'}}>Perfil</Text>
                     </TouchableOpacity>
                 </View>
 
-                <View style={{paddingTop:5}}>
+                <View >
                     <TouchableOpacity>
                         <AntDesign name="home" size={31} color="#808080" />
                         <Text style={{fontSize:10,textAlign:'center'}}>Match</Text>
                     </TouchableOpacity>
                 </View>
 
-                <View style={{paddingTop:5}}>
+                <View>
                     <TouchableOpacity onPress={()=>navigation.navigate('Conversas')}>
                         <Ionicons name="ios-chatbubbles-outline" size={28} color="#808080" />
                         <Text style={{fontSize:10,marginLeft:-10}}>Conversas</Text>
                     </TouchableOpacity>
                 </View>
-            </View> */}
+            </View> 
         </View>
     );
 }
