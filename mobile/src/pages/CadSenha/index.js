@@ -6,7 +6,6 @@ import styles from './styles'
 export default function CadSenha({navigation}){
 
     const [senha,setSenha] = useState('');
-    const [senhaC,setSenhaC] = useState('');
 
     return(
       <View style={styles.container}>
@@ -16,8 +15,8 @@ export default function CadSenha({navigation}){
             <Text style={styles.txtSenha}>Senha</Text>
             <TextInput maxLength={15} placeholder='Digite sua senha'style={{fontSize:30,fontWeight:'200',height:100,width:300,textAlign:'center'}} onChangeText={(text)=>setSenha(text)}/>
             <Text style={{fontWeight:'200',color:'#707070',marginTop:-35}}>_____________________________________</Text>
-            <TextInput maxLength={15} placeholder='Confirme sua senha'style={{fontSize:30,fontWeight:'200',height:100,width:300,textAlign:'center'}} onChangeText={(text)=>setSenhaC(text)}/>
-            <Text style={{fontWeight:'200',color:'#707070',marginTop:-35}}>_____________________________________</Text>
+            {/* <TextInput maxLength={15} placeholder='Confirme sua senha'style={{fontSize:30,fontWeight:'200',height:100,width:300,textAlign:'center'}} onChangeText={(text)=>setSenhaC(text)}/>
+            <Text style={{fontWeight:'200',color:'#707070',marginTop:-35}}>_____________________________________</Text> */}
             <View>
               <Text style={styles.txtCodigo}>Lembre-se, não informe sua senha para ninguém!</Text>
             </View>

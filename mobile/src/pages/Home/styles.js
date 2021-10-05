@@ -1,8 +1,36 @@
-import {StyleSheet} from 'react-native';
+import {StyleSheet, Dimensions} from 'react-native';
 
 const styles = StyleSheet.create({
     container:{
         flex:1,
+        backgroundColor:'white'
+    },
+    cardImage:{
+        flex: 1,
+        width: null,
+        height:null,
+        // resizeMode: "cover",
+        resizeMode: "cover",
+        borderRadius: 8
+    },
+    card:{
+        marginTop:10,
+        margin: 10,
+        flex: .8,
+        borderRadius: 8,
+        shadowRadius: 25,
+        shadowColor: '#000',
+        shadowOpacity: 0.08,
+        shadowOffset: { width: 0, height: 0},
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#FFF'
+    },
+    matches:{
+        backgroundColor:'#cccccc',
+        marginHorizontal:5,
+        marginBottom:20
+        
     },
     header:{
         height:60,
@@ -19,7 +47,7 @@ const styles = StyleSheet.create({
         height:30,
         fontWeight:'200',
         borderWidth:1,
-        borderColor:'#CCCCCC',
+        borderColor:'#ff8c00ad',
         borderRadius:12,
         paddingStart:13,
     },

@@ -10,14 +10,15 @@ const styles = StyleSheet.create({
       alignItems:'center'
     },
     logo:{
-      width:283,
-      height:101
+      width:400,
+      height:118,
+      marginLeft:5
     },
     txt:{
       marginTop:10,
       textAlign:'center',
       fontSize:12,
-      color:'#FFFFFF',
+      color:'rgba(0,0,0, 0.30)',
     },
     area1:{
       flex:1,
@@ -27,11 +28,13 @@ const styles = StyleSheet.create({
     area2:{
       flex:1,
       alignItems:'center',
+
     },
     txtProb:{
       marginTop:30,
-      color:'#F0F0F0',
-      fontSize:10
+      color:'rgba(0, 0, 0, 0.50)',
+      fontSize:8,
+      fontWeight:'100'
     },
     botao:{
       width:315,

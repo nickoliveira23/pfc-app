@@ -5,23 +5,46 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import Index from './pages/Index';
 import CadSenha from './pages/CadSenha'
-import CadNumero from './pages/CadNumero'
+import CadNumero from './pages/CadEmail'
 import CadCodigo from './pages/CadCodigo'
 import CadPerfil from './pages/CadPerfil';
+import Home from './pages/Home';
+import Chat from './pages/Chat';
+import Conversas from './pages/Conversas';
+import RoutesTab from './pages/TabNavigator/routesTab';
+import Login from './pages/Login'
 
 const Stack = createStackNavigator();
-const Tab = createBottomTabNavigator();
+// const Tab = createBottomTabNavigator();
 
 export default function Routes(){
     return(
+
         <NavigationContainer>
-            <Tab.Navigator screenOptions={{headerShown:'false'}}>
-                <Tab.Screen name='Index' component={Index} />
-                <Tab.Screen name='CadNumero' component={CadNumero} />
-                <Tab.Screen name='CadCodigo' component={CadCodigo} />
-                <Tab.Screen name='CadSenha' component={CadSenha} />
-                <Tab.Screen name='CadPerfil' component={CadPerfil}/>
-            </Tab.Navigator>
+            <Stack.Navigator initialRouteName="Index" tabBar screenOptions={{headerShown:false}}>
+                <Stack.Screen name='Home' component={Home}/>
+                <Stack.Screen name='Chat' component={Chat}/>
+                <Stack.Screen name='CadPerfil' component={CadPerfil}/>
+                <Stack.Screen name='CadCodigo' component={CadCodigo}/>
+                <Stack.Screen name='CadNumero' component={CadNumero}/>
+                <Stack.Screen name='CadSenha' component={CadSenha}/>
+                <Stack.Screen name='Index' component={Index}/>
+                <Stack.Screen name='Conversas' component={Conversas}/>
+                <Stack.Screen name='RoutesTab' component={RoutesTab}/>
+                <Stack.Screen name='Login' component={Login}/>
+            </Stack.Navigator>
         </NavigationContainer>
+
+        // <NavigationContainer>
+        //     <Stack.Navigator initialRouteName="Chat" screenOptions={{headerShown:false}}>
+        //         <Stack.Screen name='Index' component={Index} />
+        //         <Stack.Screen name='CadNumero' component={CadNumero} />
+        //         <Stack.Screen name='CadCodigo' component={CadCodigo} />
+        //         <Stack.Screen name='CadSenha' component={CadSenha} />
+        //         <Stack.Screen name='CadPerfil' component={CadPerfil}/>
+        //         <Stack.Screen name='Home' component={Home}/>
+        //         <Stack.Screen name='Chat' component={Chat}/>
+        //     </Stack.Navigator>
+        // </NavigationContainer>
     );
 }
