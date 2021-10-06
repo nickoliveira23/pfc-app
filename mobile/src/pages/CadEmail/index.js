@@ -29,7 +29,7 @@ export default function CadNumero({navigation}){
           <View style={styles.area2}>
             <TouchableOpacity onPress={()=>{
               if(email != 'alex'){
-                alert("foi");
+                alert("Email cadastrado!");
                 navigation.navigate('CadCodigo', {
                   email_address: email,
                   teste: "oi"
