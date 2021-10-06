@@ -15,7 +15,7 @@ export default function Index( {navigation} ){
         </View>
 
         <View style={styles.area2}>
-          <TouchableOpacity style={[styles.botao,{marginTop:70,borderColor:'transparent'}]} onPress={()=>navigation.navigate('CadNumero')}>
+          <TouchableOpacity style={[styles.botao,{marginTop:70,borderColor:'transparent'}]} onPress={()=>navigation.navigate('CadEmail')}>
               <Text style={{color:'white'}}>CRIAR CONTA</Text>
           </TouchableOpacity>
           <TouchableOpacity style={[styles.botao,{backgroundColor:'transparent',borderColor:'#FFFFFF',marginTop:20}]} onPress={()=>navigation.navigate('Login')}>

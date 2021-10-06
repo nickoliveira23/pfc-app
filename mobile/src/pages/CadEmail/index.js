@@ -3,7 +3,7 @@ import { View, Text, TextInput, ScrollView, TouchableOpacity } from 'react-nativ
 import { AntDesign, Ionicons } from '@expo/vector-icons';
 import styles from './styles'
 
-export default function CadNumero({navigation}){
+export default function CadEmail({navigation}){
 
     const [email, setEmail] = useState('');
 

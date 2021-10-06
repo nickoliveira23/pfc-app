@@ -4,15 +4,15 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import Index from './pages/Index';
-import CadSenha from './pages/CadSenha'
-import CadNumero from './pages/CadEmail'
-import CadCodigo from './pages/CadCodigo'
+import CadSenha from './pages/CadSenha';
+import CadEmail from './pages/CadEmail';
+import CadCodigo from './pages/CadCodigo';
 import CadPerfil from './pages/CadPerfil';
 import Home from './pages/Home';
 import Chat from './pages/Chat';
 import Conversas from './pages/Conversas';
 import RoutesTab from './pages/TabNavigator/routesTab';
-import Login from './pages/Login'
+import Login from './pages/Login';
 
 const Stack = createStackNavigator();
 // const Tab = createBottomTabNavigator();
@@ -26,7 +26,7 @@ export default function Routes(){
                 <Stack.Screen name='Chat' component={Chat}/>
                 <Stack.Screen name='CadPerfil' component={CadPerfil}/>
                 <Stack.Screen name='CadCodigo' component={CadCodigo}/>
-                <Stack.Screen name='CadNumero' component={CadNumero}/>
+                <Stack.Screen name='CadEmail' component={CadEmail}/>
                 <Stack.Screen name='CadSenha' component={CadSenha}/>
                 <Stack.Screen name='Index' component={Index}/>
                 <Stack.Screen name='Conversas' component={Conversas}/>
