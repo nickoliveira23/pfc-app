@@ -10,8 +10,8 @@ const styles = StyleSheet.create({
       alignItems:'center'
     },
     logo:{
-      width:400,
-      height:118,
+      width:300,
+      height:90,
       marginLeft:5
     },
     txt:{
@@ -31,10 +31,9 @@ const styles = StyleSheet.create({
 
     },
     txtProb:{
-      marginTop:30,
+      marginTop:20,
       color:'rgba(0, 0, 0, 0.50)',
-      fontSize:8,
-      fontWeight:'100'
+      fontSize:13
     },
     botao:{
       width:315,

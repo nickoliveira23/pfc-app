@@ -8,6 +8,7 @@ export default function CadCodigo({route, navigation}){
 
     const [codigo, setCodigo] = useState('');
     const {email_address, teste} = route.params;
+
     return(
       <View style={styles.container}>
         <ScrollView bounces={false} contentContainerStyle={{flexGrow:1}} keyboardShouldPersistTaps='handled'>

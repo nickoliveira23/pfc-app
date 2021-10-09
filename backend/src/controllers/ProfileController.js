@@ -7,7 +7,7 @@ module.exports = {
             job, photos, main_photo } = request.body;
 
             const [id] = await connection('profile').insert({
-                name, 
+                namee, 
                 gender, 
                 interest, 
                 goal, 

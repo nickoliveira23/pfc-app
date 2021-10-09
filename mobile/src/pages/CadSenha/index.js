@@ -5,7 +5,7 @@ import styles from './styles'
 
 export default function CadSenha({navigation}){
 
-    const [senha,setSenha] = useState('');
+    const [senha, setSenha] = useState('');
 
     return(
       <View style={styles.container}>
