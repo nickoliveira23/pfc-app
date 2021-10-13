@@ -21,7 +21,7 @@ export default function Routes(){
     return(
 
         <NavigationContainer>
-            <Stack.Navigator initialRouteName="Index" tabBar screenOptions={{headerShown:false}}>
+            <Stack.Navigator initialRouteName="Home" tabBar screenOptions={{headerShown:false}}>
                 <Stack.Screen name='Home' component={Home}/>
                 <Stack.Screen name='Chat' component={Chat}/>
                 <Stack.Screen name='CadPerfil' component={CadPerfil}/>

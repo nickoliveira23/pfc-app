@@ -12,6 +12,8 @@ export default function CadPerfil( {navigation} ){
     const [name,setNome] = useState('');
     const [age,setIdade] = useState('');
     const [gender,setSexo] = useState('');
+    const [biografia,setBio] = useState('');
+    const [interesse,setInteresse] = useState('');
 
     return(
         <View style={{flex:1}}>
@@ -103,10 +105,10 @@ export default function CadPerfil( {navigation} ){
                         <Text style={styles.titulos}>   INTERESSES</Text>
                         <TextInput placeholderTextColor='rgba(0,0,0, 0.50)' placeholder='Adicionar Interesse' clearButtonMode='always' multiline={true}  maxLength={100} style={styles.textInput} />
                     </View>
-                    <View style={{marginTop:10,borderBottomWidth:1,borderBottomColor:'rgba(0,0,0, 0.05)',paddingBottom:15}}>
+                    {/* <View style={{marginTop:10,borderBottomWidth:1,borderBottomColor:'rgba(0,0,0, 0.05)',paddingBottom:15}}>
                         <Text style={styles.titulos}>   CARGO</Text>
                         <TextInput placeholderTextColor='rgba(0,0,0, 0.50)' placeholder='Adicionar Cargo' keyboardType='default' clearButtonMode='always' maxLength={25} style={styles.textInput}/>
-                    </View>
+                    </View> */}
                     <View style={{marginTop:10,borderBottomWidth:1,borderBottomColor:'rgba(0,0,0, 0.05)',paddingBottom:15}}>
                         <Text style={styles.titulos}>   UNIVERSIDADE</Text>
                         <TextInput placeholderTextColor='rgba(0,0,0, 0.50)' placeholder='Adicionar Universidade' keyboardType='default' clearButtonMode='always' maxLength={25} style={styles.textInput}/>
