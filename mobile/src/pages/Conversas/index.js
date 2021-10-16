@@ -22,7 +22,7 @@ import {
         <View style={styles.containerMessages}>
           <View style={styles.top}>
             <View style={{marginLeft:10}}>
-            <Text style={styles.title}>Messages</Text>
+            <Text style={styles.title}>Mensagens</Text>
             </View>
             <TouchableOpacity>
             <FontAwesome name="ellipsis-v" size={24} color={DARK_GRAY} />
