@@ -1,17 +1,38 @@
 const connection = require('../database/connection');
 
+const bcrypt = require('bcryptjs');
+
+const jwt = require('jsonwebtoken');
+
 module.exports = {
-    async create(request, response) {
-        const { id } = request.body;
+    async login(request, response) {
+        try {
+            const { email, password } = request.body;
 
-        const user = await connection('user')
-        .where('id', id)
-        .select('*')
-        .first();
+            const user = await connection('user')
+            .where({ email: email})
+            .select('*')
+            .first();
 
-        if (!user) {
-            return response.status(400).json({ error: 'No user found with this ID'});
+            if (user) {
+                const validPass = await bcrypt.compare(password, user.password);
+                if (validPass){
+                    const token = jwt.sign({email: email}, 'superSecretThing', { expiresIn: 300 });
+                    return response.json({user, token: token});
+                } else {
+                    if (validPass == '') {
+                        return response.status(400).json({ error: 'Digite uma senha!'});
+                    }else {
+                        return response.status(400).json({ error: 'Senha errada!'});
+                    }
+                }
+            } else {
+                return response.status(404).json({ error: 'Nenhum usuário encontrado' });
+            }
+        } catch (err) {
+            console.log(err);
+            return response.status(500).json({ error: 'Algo deu errado'});
         }
-        return response.json(user);
+        
     }
 };

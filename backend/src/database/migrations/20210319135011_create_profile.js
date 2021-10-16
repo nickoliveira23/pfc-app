@@ -3,15 +3,13 @@ exports.up = function(knex) {
     return knex.schema.createTable('profile', function (table) {
         table.increments('id').primary();
         table.string('name').notNullable();
+        table.integer('age');
         table.string('gender').notNullable();
-        table.string('interest').notNullable();
+        table.string('city');
+        table.string('uf');
         table.string('goal').notNullable();
-        table.string('biography').notNullable();
-        table.string('height').notNullable();
-        table.string('job').notNullable();
-        table.string('photos').notNullable();
-        table.string('main_photo').notNullable();
-
+        table.string('biography');
+                
         table.integer('id_user').references('user.id').notNullable().onDelete('CASCADE');
     });
   };
