@@ -20,14 +20,18 @@ module.exports = {
                     const token = jwt.sign({email: email}, 'superSecretThing', { expiresIn: 300 });
                     return response.json({user, token: token});
                 } else {
-                    return response.json('Senha errada!');
+                    if (validPass == '') {
+                        return response.status(400).json({ error: 'Digite uma senha!'});
+                    }else {
+                        return response.status(400).json({ error: 'Senha errada!'});
+                    }
                 }
             } else {
-                return response.status(400).json({ error: 'Nenhum usuário encontrado' });
+                return response.status(404).json({ error: 'Nenhum usuário encontrado' });
             }
         } catch (err) {
             console.log(err);
-            return response.status(500).json('Algo deu errado');
+            return response.status(500).json({ error: 'Algo deu errado'});
         }
         
     }

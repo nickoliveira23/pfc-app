@@ -1,12 +1,42 @@
 import React, {useState} from 'react';
-import { View, Text, TextInput, ScrollView, TouchableOpacity } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { View, Text, TextInput, ScrollView, TouchableOpacity, AsyncStorage, Alert } from 'react-native';
 import { AntDesign, Ionicons } from '@expo/vector-icons';
 import styles from './styles'
+import api from '../../services/api';
 
-export default function CadEmail({navigation}){
+export default function CadEmail() {
 
+    const navigation = useNavigation();
     const [email, setEmail] = useState('');
+    const [errorMessage, setErrorMessage] = useState(null);
 
+    function navigateSenha() {
+      navigation.navigate('CadSenha');
+    }
+
+    handleEmail = async () => {
+      try {
+        const response = await api.post('/user/emailVerify', {
+          email: email
+        });
+
+        const user = response.data;
+
+        await AsyncStorage.setItem('@CodeApi:email', JSON.stringify(user))
+
+        navigation.reset({
+          index: 0,
+          routes: [{ name: 'CadSenha' }],
+        });
+
+        navigateSenha();
+
+      } catch (err) {
+        setErrorMessage(err.response.data.error);
+        Alert.alert(err.response.data.error);
+      }
+    }
     return(
       <View style={styles.container}>
         <ScrollView bounces={false} contentContainerStyle={{flexGrow:1}} keyboardShouldPersistTaps='handled'>
@@ -17,27 +47,15 @@ export default function CadEmail({navigation}){
           <View style={{marginTop:0,height:50,width:300,borderWidth:1,borderRadius:10,borderColor:'rgb(195,195,197)',flexDirection:'row',justifyContent:'left',padding:10,paddingRight:50}}>
               <Ionicons name="md-person" size={24} color="rgba(0,0,0, 0.75)" style={{marginRight:0}} />
               <View style={{alignItems:"center",justifyContent:"center",paddingLeft:10}}>
-              <TextInput autoCapitalize="none" autoCorrect={false} style={{fontSize:13}} onChangeText={(text)=>setEmail(text)} placeholder='Email                                                 '/>
+              <TextInput autoCapitalize="none" autoCorrect={false} style={{fontSize:13}} value={email} onChangeText={email => setEmail(email)} placeholder='Email                                                 '/>
               </View>
           </View>
-
             <View style={{alignItems:'center',marginTop:30}}>
               <Text style={styles.txtCodigo}>Vamos te enviar um email com o código de confirmação, verifiquei sua caixa de entrada :)</Text>
             </View>
-
-
           <View style={styles.area2}>
-            <TouchableOpacity onPress={()=>{
-              if(email != 'alex'){
-                alert("Email cadastrado!");
-                navigation.navigate('CadCodigo', {
-                  email_address: email,
-                  teste: "oi"
-                })
-              } else{
-                alert("Email já cadastrado");
-              }
-            }} style={[styles.botao,{borderColor:'#707070',backgroundColor:null,marginBottom:50}]}>
+          { !!errorMessage && <Text style={{color: '#FF0000', marginBottom: 20}}>{ errorMessage } </Text> }
+            <TouchableOpacity onPress={handleEmail} style={[styles.botao,{borderColor:'#707070',backgroundColor:null,marginBottom:50}]}>
               <Text style={{color:'#707070'}}>Continuar</Text>
             </TouchableOpacity>
           </View>

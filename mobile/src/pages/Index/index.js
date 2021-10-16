@@ -1,12 +1,21 @@
 
 
 
-import React, {Component} from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import React, {Component, useEffect } from 'react';
+import { View, Text, StyleSheet, Image, TouchableOpacity, AsyncStorage } from 'react-native';
 import { AntDesign, MaterialIcons  } from '@expo/vector-icons';
 import styles from './styles';
 
 export default function Index( {navigation} ){
+
+  /*useEffect(() => {
+    clearAsyncStorage = async() => {
+      await AsyncStorage.clear();
+  }
+  clearAsyncStorage()    
+  });*/
+  
+
     return(
       <View style={styles.container}>
         <View style={styles.area1}>
