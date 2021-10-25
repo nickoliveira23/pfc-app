@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import {View, Text, TextInput, Slider, TouchableOpacity, Alert, AsyncStorage} from 'react-native';
-import InputScrollView from 'react-native-input-scroll-view';
+import {View, Text, TextInput, TouchableOpacity, Alert, AsyncStorage} from 'react-native';
 import { EvilIcons, Ionicons } from '@expo/vector-icons';
-import * as ImagePicker from "expo-image-picker";
 import RNPickerSelect from 'react-native-picker-select';
 import { useNavigation } from '@react-navigation/native';
 
@@ -10,88 +8,13 @@ import styles from './styles'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import api from '../../services/api';
 
-export default function CadPerfil(){
-    const [picutrePreview, setPicturePreview] = useState("");
-    const [types, setTypes] = useState(false);
-    const [newUpload, setNewUpload] = useState(null);
-    function handleSelectTypeImage() {
-        setTypes(true);
-    }
-
-    // async function UploadImage() {
-    //     try {
-    //         const formData = new FormData();
-    //         formData.append("image", upload);
-    //         console.log(formData)
-    //         const { data } = await api.post('/profile/upload-image', formData, {
-    //             headers: {
-    //                 'Content-Type': 'multipart/form-data'
-    //             }
-    //         });
-    //     } catch (err) {
-    //         console.log(err.response.data.error);
-    //     }
-    // }
-
-    async function UploadImage(imagem_recebida){
-        try {
-            //const userAuthToken = "TOKEN_DE_ACESSO_A_API";
-            const requestConfigFile = {
-              headers: {
-                //Authorization: `bearer ${userAuthToken}`,
-                "Content-Type": "multipart/form-data"
-              }
-            };
-
-            const dataFile = new FormData();
-            const fileURL = imagem_recebida.uri;
-            const fileName = fileURL.split("/").pop();
-            const ext = fileURL.split(".").pop();
-
-            dataFile.append("image", {
-                uri: fileURL, // Caminho da imagem
-                name: fileName,
-                type: "image/" + ext
-            });
-
-            const response = await api.post("/profile/upload-image", dataFile, requestConfigFile);
-        } catch (err) {
-            Alert.alert(err.response.data.mensagem);
-        } 
-    }
-
-    async function handleSelectCamera() {
-        setTypes(false);
-        const result = await ImagePicker.launchCameraAsync({
-          mediaTypes: ImagePicker.MediaTypeOptions.All,
-          allowsEditing: true,
-        })
-
-        setPicturePreview(result.uri);
-        UploadImage(result);
-    }
-      
-    async function handleSelectGalery() {
-        setTypes(false);
-        const result = await ImagePicker.launchImageLibraryAsync({
-          mediaTypes: ImagePicker.MediaTypeOptions.Images,
-          allowsEditing: true,
-        });
-
-        if (result.cancelled) {
-            return;
-        }
-
-      setPicturePreview(result.uri);
-      UploadImage(result);
-    }
-      
-
-
+export default function Perfil(){
     const navigation = useNavigation();
-    function navigateIndex() {
-        navigation.navigate('Index');
-    }  
+
+    function navigateHome() {
+        navigation.navigate('Home');
+      }
+        
     const [name,setName] = useState('');
     const [age,setAge] = useState('');
     const [gender,setGender] = useState('');
@@ -101,59 +24,57 @@ export default function CadPerfil(){
     const [biography, setBiography] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [errorMessage, setErrorMessage] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');  
+
+    
 
     useEffect(() => {
-        async function SampleComponent() {
-            const emailObj = await AsyncStorage.getItem('@CodeApi:email');
-            const passwordObj = await AsyncStorage.getItem('@CodeApi:password'); 
-
-            setEmail(JSON.parse(emailObj).email);
-            setPassword(JSON.parse(passwordObj).password);
-        }
-        SampleComponent();
-    });
-
-      handleRegister = async () => {
-          try {
-
-            const resp = await api.post('/profile/verify', {
-                name: name,
-                age: age,
-                gender: gender,
-                city: city,
-                uf: uf,
-                goal: goal,
-                biography: biography,
-            });
-
-            const res = await api.post ('/user/register', {
-                email: email,
-                password: password,
-            });
-            const userObj = JSON.stringify(res.data);
-
-            const user = JSON.parse(userObj);
-           
-
-            const response = await api.post('/profile/register', {
-                name: name,
-                age: age,
-                gender: gender,
-                city: city,
-                uf: uf,
-                goal: goal,
-                biography: biography,
-                id_user: user.id
-            });
+        async function LoadData() {
             
-            Alert.alert('Cadastro realizado com sucesso')
-            navigateIndex()
+        const userObj = await AsyncStorage.getItem('@CodeApi:user');
+        const userString = JSON.parse(userObj);
+        const id = userString.id;
+
+        const response = await api.get(`profile/${id}`);
+
+        const profile = response.data;
+        
+        setName(profile.name);
+        setAge(JSON.stringify(profile.age));
+        setGender(profile.gender);
+        setBiography(profile.biography);
+        setGoal(profile.goal);
+        setCity(profile.city);
+        setUf(profile.uf);
+    }
+        LoadData();
+    }, []);
+
+    async function handleUpdate () {
+        try {
+
+            const userObj = await AsyncStorage.getItem('@CodeApi:user');
+            const userString = JSON.parse(userObj);
+            const id = userString.id;
+
+            const resp = await api.put(`profile/update/${id}`, {
+                name: name,
+                age: age,
+                gender: gender,
+                city: city,
+                uf: uf,
+                goal: goal,
+                biography: biography,
+            });
+
+            Alert.alert('Atualizado com sucesso!')
+            navigateHome()
+            
           } catch (err) {
             setErrorMessage(err.response.data.error);
             Alert.alert(err.response.data.error);
           }
-      }
+    }
 
     return(
         <View style={{flex:1}}>
@@ -163,34 +84,17 @@ export default function CadPerfil(){
                     <Text style={{fontSize:15,fontWeight:'600',textAlign:'center'}}>Editar Informações</Text>
                 </View>
                 <View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
-                    <TouchableOpacity onPress={handleRegister}>
+                    <TouchableOpacity onPress={handleUpdate}>
                         <Text style={{color:'#ff8c00ad',top:10, left:20, fontSize:15}}>Concluido</Text>
                     </TouchableOpacity>
                 </View>
             </View>
             <KeyboardAwareScrollView style={styles.container}>
-                <View style={{alignItems:'center'}} enctype="multipart/form-data">
-                    <TouchableOpacity onPress={() => handleSelectTypeImage()}>
-                        <EvilIcons name="user" size={150} color="rgba(0,0,0, 0.75)" style={{paddingBottom:15}}/>
-                    </TouchableOpacity>
+                <View style={{alignItems:'center'}}>
+                    <EvilIcons name="user" size={300} color="rgba(0,0,0, 0.75)" style={{paddingBottom:15}}/>
                 </View>
-                {types && (
-                <View style={{flexDirection:'row', justifyContent:'space-between' }}>
-                    <View style={{paddingTop:5, paddingLeft: 20, paddingBottom: 5}}>
-                        <TouchableOpacity  onPress={handleSelectGalery} >
-                            <Text style={{color:'#ff8c00ad'}}>Galeria</Text>
-                        </TouchableOpacity>
-                    </View>
-                    <View style={{paddingTop:5, paddingRight: 20, paddingBottom: 5}}>
-                        <TouchableOpacity onPress={handleSelectCamera}>
-                            <Text style={{color:'#ff8c00ad'}}>Câmera</Text>
-                        </TouchableOpacity>
-                    </View>
-                    
-                </View>
-            )}
                 <View style={{borderBottomColor:'#CCCCCC',borderBottomWidth:1,borderTopWidth:1,borderTopColor:'#CCCCCC',paddingHorizontal:15,paddingVertical:15,backgroundColor:'#FFFFFF'}}>
-                { !!errorMessage && <Text style={{color: '#FF0000', marginBottom: 20, textAlign:'center'}}>{ errorMessage } </Text> }
+                {/* !!errorMessage && <Text style={{color: '#FF0000', marginBottom: 20, textAlign:'center'}}>{ errorMessage } </Text> */}
                     <View style={{borderBottomWidth:1,borderBottomColor:'#CCCCCC',paddingBottom:15}}>
                         <Text style={styles.titulos}>   NOME *</Text>
                         <TextInput keyboardType='default' clearButtonMode='always' maxLength={25} style={styles.textInput} placeholder='Adicione o nome' value={name} onChangeText={name => setName(name)}/>
@@ -228,7 +132,7 @@ export default function CadPerfil(){
                         />  
                     </View>
                 </View>
-                {/* <View style={{flexDirection:'row',justifyContent:'center', paddingHorizontal:15,marginTop:10}}>
+                <View style={{flexDirection:'row',justifyContent:'center', paddingHorizontal:15,marginTop:10}}>
                     <View style={{width:110,height:170,borderRadius:5,backgroundColor:'#CCCCCC',margin:5}}><Ionicons name="add-circle-sharp" size={40} color="#ff8c00ad" style={{position:'absolute',left:-10,top:-10}} /></View>
                     <View style={{width:110,height:170,borderRadius:5,backgroundColor:'#CCCCCC',margin:5}}><Ionicons name="add-circle-sharp" size={40} color="#ff8c00ad" style={{position:'absolute',left:-10,top:-10}} /></View>
                     <View style={{width:110,height:170,borderRadius:5,backgroundColor:'#CCCCCC',margin:5}}><Ionicons name="add-circle-sharp" size={40} color="#ff8c00ad" style={{position:'absolute',left:-10,top:-10}} /></View>
@@ -237,7 +141,7 @@ export default function CadPerfil(){
                     <View style={{width:110,height:170,borderRadius:5,backgroundColor:'#CCCCCC',margin:5}}><Ionicons name="add-circle-sharp" size={40} color="#ff8c00ad" style={{position:'absolute',left:-10,top:-10}} /></View>
                     <View style={{width:110,height:170,borderRadius:5,backgroundColor:'#CCCCCC',margin:5}}><Ionicons name="add-circle-sharp" size={40} color="#ff8c00ad" style={{position:'absolute',left:-10,top:-10}} /></View>
                     <View style={{width:110,height:170,borderRadius:5,backgroundColor:'#CCCCCC',margin:5}}><Ionicons name="add-circle-sharp" size={40} color="#ff8c00ad" style={{position:'absolute',left:-10,top:-10}} /></View>
-                </View> */}
+                </View>
                 <View style={{marginTop:10,borderBottomColor:'#CCCCCC',borderBottomWidth:1,borderTopWidth:1,borderTopColor:'#CCCCCC',paddingHorizontal:15,paddingVertical:15,backgroundColor:'#FFFFFF'}}>
                     <View style={{borderBottomWidth:1,borderBottomColor:'#CCCCCC',paddingBottom:15}}>
                         <Text style={styles.titulos}>   SOBRE MIM</Text>
@@ -280,8 +184,6 @@ export default function CadPerfil(){
                 </View>
             </KeyboardAwareScrollView>
         </View>
-
-        
     );
 }
 

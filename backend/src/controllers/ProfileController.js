@@ -1,8 +1,23 @@
 const connection = require('../database/connection');
 
+
 module.exports = {
+    
+
     async index(request, response) {
         const profile = await connection('profile').select('*');
+
+        return response.json(profile);
+    },
+
+    async indexById(request, response) {
+
+        const { id } = request.params;
+
+        const profile = await connection('profile')
+        .where('id_user', id)
+        .select('*')
+        .first();
 
         return response.json(profile);
     },
@@ -24,6 +39,35 @@ module.exports = {
             });
                 
             return response.json({ id });
+                        
+        } catch (err) {
+            return response.status(500).json({ error: 'Algo deu errado!' });
+        }
+    },
+
+    async updateProfile(request, response) {
+        try {
+            const { name, age, gender, city, 
+                uf, goal, biography } = request.body;
+
+            const { id } = request.params;
+
+            const { id_user } = request.params;
+            
+            await connection('profile')
+            .update({
+                name, 
+                age,
+                gender, 
+                city, 
+                uf, 
+                goal, 
+                biography,
+                id_user
+            })
+            .where({ id })
+            
+            return response.json('ok');
                         
         } catch (err) {
             return response.status(500).json({ error: 'Algo deu errado!' });

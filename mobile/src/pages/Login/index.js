@@ -26,9 +26,14 @@ export default function Login() {
 
     signIn = async () => {
       try {
-        const response = await api.post('/session', {
+        /*const response = await api.post('/session', {
           email: email,
           password: password
+        });*/
+
+        const response = await api.post('/session', {
+          email: 'a@a.com',
+          password: '123Teste456!'
         });
 
         const { user, token } = response.data;
@@ -54,21 +59,18 @@ export default function Login() {
       }
     };
 
-    /*useEffect(() => {
-      async function SampleComponent() {
+    useEffect(() => {
+      async function GoToNextScreen() {
         const token = await AsyncStorage.getItem('@CodeApi:token');
         const user = JSON.parse(await AsyncStorage.getItem('@CodeApi:user'));
 
-      if(token && user) {
-        setLoggedInUser(user);
-        navigateLogin();
-      } else {
-
+        if(token && user) {
+          setLoggedInUser(user);
+          navigateHome();
+        } 
       }
-        
-      }
-      SampleComponent();
-    });*/
+      GoToNextScreen();
+    });
 
     return (
       <View style={styles.container}>
