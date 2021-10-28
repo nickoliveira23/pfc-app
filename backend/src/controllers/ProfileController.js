@@ -1,25 +1,113 @@
+const { where } = require('../database/connection');
 const connection = require('../database/connection');
 
-
 module.exports = {
+    async showPic(request, response) {
+        try {
+            const { id } = request.params;
+
+            const picture = await connection('picture')
+            .where('id_profile', id)
+            .select('*')
+            .first();
+
+            if (picture) {
+                const filename = picture.filename;
+                const filepath = picture.destination;
+
+                return response.sendFile(filename, { root: filepath});
+            } else {
+                return response.status(404).json({ mensagem: 'Imagem não encontrada!' })
+            }
+        } catch (err) {
+            console.log(err)
+        }
+    },
+
+    async uploadPicture (request, response) {
+        try {
+            if(request.file) {
+
+                const { fieldname, originalname, encoding, mimetype, destination,
+                    filename, path, size } = request.file;
+
+                    const { id_profile } = request.params;
+                
     
+                const [id] = await connection('picture').insert({
+                    fieldname,
+                    originalname,
+                    encoding,
+                    mimetype,
+                    destination,
+                    filename,
+                    path,
+                    size,
+                    id_profile
+                })
+    
+                return response.status(200).json({
+                    erro: false,
+                    mensagem: 'Upload realizado com sucesso',
+                    id
+                    
+                })
+            }
+            return response.status(400).json({
+                erro: true,
+                mensagem: 'Upload não realizado com sucesso'
+            });
+        } catch(err) {
+            console.log(err);
+        }
+        
+    },
 
     async index(request, response) {
-        const profile = await connection('profile').select('*');
+        const profile = await connection('profile')
+                .join('picture', 'id_profile', '=', 'profile.id')
+                .select([
+                    'profile.*',
+                    'picture.filename',
+                    'picture.destination']);
 
         return response.json(profile);
     },
 
     async indexById(request, response) {
+        try {
+            const { id } = request.params;
 
-        const { id } = request.params;
+            // const profile = await connection('profile')
+            // .where('id_user', id)
+            // .select('*')
+            // .first();
 
-        const profile = await connection('profile')
-        .where('id_user', id)
-        .select('*')
-        .first();
+            const profile = await connection('profile')
+                .where('id_user', id)
+                .join('picture', 'id_profile', '=', 'profile.id')
+                .select([
+                    'profile.*',
+                    'picture.filename',
+                    'picture.destination']);
 
-        return response.json(profile);
+            // const picture = await connection('picture')
+            //     .where('id_profile', id)
+            //     .select('*')
+            //     .first();
+
+            // const filename = picture.filename;
+            // const filepath = picture.destination;
+
+
+            
+            //return response.json(profile).sendFile(filename, { root: filepath})
+            //return response.sendFile(filename, { root: filepath});
+            return response.json(profile)
+        } catch (err) {
+            console.log(err)
+        }
+        
     },
 
     async create(request, response) {

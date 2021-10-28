@@ -17,13 +17,13 @@ export default function CadSenha() {
 
     handlePassword = async () => {
       try {
-        const credentials = {
-            password: password
-        }
-        const response = await api.post('/user/passwordVerify', credentials);
-        /*const response = await api.post('/user/passwordVerify', {
+        // const credentials = {
+        //     password: password
+        // }
+        // const response = await api.post('/user/passwordVerify', credentials);
+        const response = await api.post('/user/passwordVerify', {
           password: '123Nicko456!'
-        });*/
+        });
         
         const user = response.data;
 

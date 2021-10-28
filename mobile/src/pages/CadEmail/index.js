@@ -17,8 +17,11 @@ export default function CadEmail() {
 
     handleEmail = async () => {
       try {
+        // const response = await api.post('/user/emailVerify', {
+        //   email: email
+        // });
         const response = await api.post('/user/emailVerify', {
-          email: email
+          email: 'nickolas.oliveira02@gmail.com'
         });
 
         const user = response.data;

@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from 'react';
 
-import { SafeAreaView, Image, View, Text, TouchableOpacity, AsyncStorage } from 'react-native';
+import { SafeAreaView, Image, View, Text, TouchableOpacity, AsyncStorage, AppRegistry } from 'react-native';
 
 import styles from './styles';
+
+import like from '../../assets/like.png'
+import nope from '../../assets/nope.png'
 
 import api from '../../services/api';
 
@@ -10,6 +13,7 @@ export default function Home(){
     
     const [profiles, setProfiles] = useState([]);
     const [match, setMatch] = useState('');
+    const [imageUri, setImageUri] = useState('');
 
     useEffect(() => {
         async function loadUsers(){
@@ -23,22 +27,18 @@ export default function Home(){
         }
 
         loadUsers();
-    }, [id]);
+    }, []);
+    
 
     return (
         <SafeAreaView style={styles.container}>
-
-            <TouchableOpacity onPress={() => {}}>
-                <Image style={styles.logo}/>
-            </TouchableOpacity>
-
             <View style={styles.cardsContainer}>
                 { profiles.length == 0
-                    ? <Text style={styles.empty}> Acabou :(</Text>
+                    ? <Text style={styles.empty}> Acabou:(</Text>
                     : (
                         profiles.map((profile, index) => (
                             <View key={profile.id} style={[styles.cards, { zIndex: profiles.length - index }]}>
-                                <Image style={styles.avatar} />
+                                <Image style={styles.avatar} source={{uri: 'http://192.168.0.8:3333/show-picture/' +  profile.id}}/>
         
                                 <View style={styles.footer}>
 
@@ -55,11 +55,11 @@ export default function Home(){
             
                 <View style={styles.buttonsContainer} >
                 <TouchableOpacity style={styles.button} onPress={() => {}}>
-                    <Image />
+                    <Image source={like}/>
                 </TouchableOpacity>
 
                 <TouchableOpacity style={styles.button} onPress={() => {}}>
-                    <Image />
+                    <Image source={nope}/>
                 </TouchableOpacity>
             </View>
         

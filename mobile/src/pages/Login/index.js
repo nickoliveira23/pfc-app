@@ -32,8 +32,8 @@ export default function Login() {
         });*/
 
         const response = await api.post('/session', {
-          email: 'a@a.com',
-          password: '123Teste456!'
+          email: 'nickolas.oliveira02@gmail.com',
+          password: '123Nicko456!'
         });
 
         const { user, token } = response.data;
@@ -59,18 +59,18 @@ export default function Login() {
       }
     };
 
-    useEffect(() => {
-      async function GoToNextScreen() {
-        const token = await AsyncStorage.getItem('@CodeApi:token');
-        const user = JSON.parse(await AsyncStorage.getItem('@CodeApi:user'));
+    // useEffect(() => {
+    //   async function GoToNextScreen() {
+    //     const token = await AsyncStorage.getItem('@CodeApi:token');
+    //     const user = JSON.parse(await AsyncStorage.getItem('@CodeApi:user'));
 
-        if(token && user) {
-          setLoggedInUser(user);
-          navigateHome();
-        } 
-      }
-      GoToNextScreen();
-    });
+    //     if(token && user) {
+    //       setLoggedInUser(user);
+    //       navigateHome();
+    //     } 
+    //   }
+    //   GoToNextScreen();
+    // });
 
     return (
       <View style={styles.container}>

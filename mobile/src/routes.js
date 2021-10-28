@@ -13,13 +13,14 @@ import Chat from './pages/Chat';
 import Conversas from './pages/Conversas';
 import RoutesTab from './pages/TabNavigator/routesTab';
 import Login from './pages/Login';
+import CadFoto from './pages/CadFoto'
 
 const Stack = createStackNavigator();
 
 export default function Routes(){
     return(
         <NavigationContainer>
-            <Stack.Navigator initialRouteName="CadPerfil" tabBar screenOptions={{headerShown:false}}>
+            <Stack.Navigator initialRouteName="Index" tabBar screenOptions={{headerShown:false}}>
                 <Stack.Screen name='Home' component={Home}/>
                 <Stack.Screen name='Chat' component={Chat}/>
                 <Stack.Screen name='CadPerfil' component={CadPerfil}/>
@@ -31,6 +32,7 @@ export default function Routes(){
                 <Stack.Screen name='Conversas' component={Conversas}/>
                 <Stack.Screen name='RoutesTab' component={RoutesTab}/>
                 <Stack.Screen name='Login' component={Login}/>
+                <Stack.Screen name='CadFoto' component={CadFoto}/>
             </Stack.Navigator>
         </NavigationContainer>
     );
