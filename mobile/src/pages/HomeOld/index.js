@@ -1,6 +1,6 @@
 import React,{useEffect, useState} from 'react';
 import {Text, View, Dimensions, Button, Image, TouchableOpacity, StatusBar, ImageBackground, Alert } from 'react-native';
-import { FontAwesome5, FontAwesome, AntDesign, Entypo, Ionicons} from '@expo/vector-icons';
+import { FontAwesome, FontAwesome, AntDesign, Entypo, Ionicons} from '@expo/vector-icons';
 import { ScrollView } from 'react-native-gesture-handler';
 import Swiper from 'react-native-deck-swiper';
 

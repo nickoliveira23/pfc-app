@@ -9,7 +9,6 @@ import api from '../../services/api';
 
 export default function CadPerfil(){
     const navigation = useNavigation();
-     
 
     const [name,setName] = useState('');
     const [age,setAge] = useState('');
@@ -51,27 +50,27 @@ export default function CadPerfil(){
             });
             const userObj = JSON.stringify(res.data);
             const user = JSON.parse(userObj);
-            // const response = await api.post('/profile/register', {
-            //     name: name,
-            //     age: age,
-            //     gender: gender,
-            //     city: city,
-            //     uf: uf,
-            //     goal: goal,
-            //     biography: biography,
-            //     id_user: user.id
-            // });
-
             const response = await api.post('/profile/register', {
-                name: 'Nicko',
-                age: 1,
-                gender: 'Masculino',
-                city: 'Mogi',
-                uf: 'sp',
-                goal: 'Todos',
-                biography: 'Gosto de got',
+                name: name,
+                age: age,
+                gender: gender,
+                city: city,
+                uf: uf,
+                goal: goal,
+                biography: biography,
                 id_user: user.id
             });
+
+            // const response = await api.post('/profile/register', {
+            //     name: 'Nicko',
+            //     age: 21,
+            //     gender: 'Masculino',
+            //     city: 'Mogi',
+            //     uf: 'SP',
+            //     goal: 'Ambos',
+            //     biography: 'Gosto de got',
+            //     id_user: user.id
+            // });
 
             Alert.alert('Cadastro realizado com sucesso')
             navigation.navigate('CadFoto', { id: user.id });

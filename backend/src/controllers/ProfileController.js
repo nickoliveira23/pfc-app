@@ -1,4 +1,4 @@
-const { where } = require('../database/connection');
+const { select } = require('../database/connection');
 const connection = require('../database/connection');
 
 module.exports = {
@@ -7,15 +7,15 @@ module.exports = {
             const { id } = request.params;
 
             const picture = await connection('picture')
-            .where('id_profile', id)
-            .select('*')
-            .first();
+                .where('id_profile', id)
+                .select('*')
+                .first();
 
             if (picture) {
                 const filename = picture.filename;
                 const filepath = picture.destination;
 
-                return response.sendFile(filename, { root: filepath});
+                return response.sendFile(filename, { root: filepath });
             } else {
                 return response.status(404).json({ mensagem: 'Imagem não encontrada!' })
             }
@@ -24,16 +24,16 @@ module.exports = {
         }
     },
 
-    async uploadPicture (request, response) {
+    async uploadPicture(request, response) {
         try {
-            if(request.file) {
+            if (request.file) {
 
                 const { fieldname, originalname, encoding, mimetype, destination,
                     filename, path, size } = request.file;
 
-                    const { id_profile } = request.params;
-                
-    
+                const { id_profile } = request.params;
+
+
                 const [id] = await connection('picture').insert({
                     fieldname,
                     originalname,
@@ -45,51 +45,68 @@ module.exports = {
                     size,
                     id_profile
                 })
-    
+
                 return response.status(200).json({
                     erro: false,
                     mensagem: 'Upload realizado com sucesso',
                     id
-                    
+
                 })
             }
             return response.status(400).json({
                 erro: true,
                 mensagem: 'Upload não realizado com sucesso'
             });
-        } catch(err) {
+        } catch (err) {
             console.log(err);
         }
-        
+
     },
 
     async index(request, response) {
-        const profile = await connection('profile')
-                .join('picture', 'id_profile', '=', 'profile.id')
-                .select([
-                    'profile.*',
-                    'picture.filename',
-                    'picture.destination']);
+        try {
+            const { user } = request.headers;
 
-        return response.json(profile);
+            const target = await connection('like')
+                .where('logged', user)
+                .select('target')
+
+            const element = []
+
+            for (let i = 0; i < target.length; ++i) {
+                element[i] = target[i].target;
+            }
+
+            const profile = await connection('profile')
+                .whereNot('id_user', user)
+                .whereNotIn('id_user', element)
+                .select('*');
+
+            return response.json(profile);
+
+
+        } catch (error) {
+            console.log(error)
+            return response.json('deu ruim');
+        }
     },
 
     async indexById(request, response) {
         try {
             const { id } = request.params;
 
-            // const profile = await connection('profile')
-            // .where('id_user', id)
-            // .select('*')
-            // .first();
-
             const profile = await connection('profile')
                 .where('id_user', id)
-                .join('picture', 'id_profile', '=', 'profile.id')
-                .select([
-                    'profile.*',
-                    'picture.filename',
-                    'picture.destination']);
+                .select('*')
+                .first();
+
+            // const profile = await connection('profile')
+            //     .where('id_user', id)
+            //     .join('picture', 'id_profile', '=', 'profile.id')
+            //     .select([
+            //         'profile.*',
+            //         'picture.filename',
+            //         'picture.destination']);
 
             // const picture = await connection('picture')
             //     .where('id_profile', id)
@@ -100,34 +117,34 @@ module.exports = {
             // const filepath = picture.destination;
 
 
-            
+
             //return response.json(profile).sendFile(filename, { root: filepath})
             //return response.sendFile(filename, { root: filepath});
             return response.json(profile)
         } catch (err) {
             console.log(err)
         }
-        
+
     },
 
     async create(request, response) {
         try {
-            const { name, age, gender, city, 
+            const { name, age, gender, city,
                 uf, goal, biography, id_user } = request.body;
 
             const [id] = await connection('profile').insert({
-                name, 
+                name,
                 age,
-                gender, 
-                city, 
-                uf, 
-                goal, 
-                biography, 
+                gender,
+                city,
+                uf,
+                goal,
+                biography,
                 id_user,
             });
-                
+
             return response.json({ id });
-                        
+
         } catch (err) {
             return response.status(500).json({ error: 'Algo deu errado!' });
         }
@@ -135,28 +152,28 @@ module.exports = {
 
     async updateProfile(request, response) {
         try {
-            const { name, age, gender, city, 
+            const { name, age, gender, city,
                 uf, goal, biography } = request.body;
 
             const { id } = request.params;
 
             const { id_user } = request.params;
-            
+
             await connection('profile')
-            .update({
-                name, 
-                age,
-                gender, 
-                city, 
-                uf, 
-                goal, 
-                biography,
-                id_user
-            })
-            .where({ id })
-            
+                .update({
+                    name,
+                    age,
+                    gender,
+                    city,
+                    uf,
+                    goal,
+                    biography,
+                    id_user
+                })
+                .where({ id })
+
             return response.json('ok');
-                        
+
         } catch (err) {
             return response.status(500).json({ error: 'Algo deu errado!' });
         }
@@ -164,34 +181,34 @@ module.exports = {
 
     async verify(request, response) {
         try {
-            const { name, age, gender, city, 
+            const { name, age, gender, city,
                 uf, goal, biography } = request.body;
 
-                if (name !== "") {
-                    if (gender !== "") {
-                        if (goal !== "") {       
-                            if (age < 61 && age > 17) {
-                                if (uf.length == 2 || uf == "") {
-                                    if (biography.length < 151) {
-                                        return response.json('Ok!');
-                                    } else {
-                                        return response.status(400).json({ error: 'Biografia não pode ter mais do que 150 caracteres!' });
-                                    }
+            if (name !== "") {
+                if (gender !== "") {
+                    if (goal !== "") {
+                        if (age < 61 && age > 17) {
+                            if (uf.length == 2 || uf == "") {
+                                if (biography.length < 151) {
+                                    return response.json('Ok!');
                                 } else {
-                                    return response.status(400).json({ error: 'UF só pode conter 2 dígitos!' })
-                                }                               
+                                    return response.status(400).json({ error: 'Biografia não pode ter mais do que 150 caracteres!' });
+                                }
                             } else {
-                                return response.status(400).json({ error: 'Idade não está de acordo com os termos de uso do aplicativo!' });
-                            }    
+                                return response.status(400).json({ error: 'UF só pode conter 2 dígitos!' })
+                            }
                         } else {
-                            return response.status(400).json({ error: 'Preencha o campo "Mostrar"!' });
+                            return response.status(400).json({ error: 'Idade não está de acordo com os termos de uso do aplicativo!' });
                         }
                     } else {
-                        return response.status(400).json({ error: 'Selecione um gênero!' });
+                        return response.status(400).json({ error: 'Preencha o campo "Mostrar"!' });
                     }
                 } else {
-                    return response.status(400).json({ error: 'Digite um nome!' });
+                    return response.status(400).json({ error: 'Selecione um gênero!' });
                 }
+            } else {
+                return response.status(400).json({ error: 'Digite um nome!' });
+            }
         } catch (err) {
             return response.status(500).json({ error: 'Algo deu errado!' });
         }

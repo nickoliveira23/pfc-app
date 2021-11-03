@@ -6,12 +6,16 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#f5f5f5',
-        alignItems: 'center',
+        // alignItems: 'center',
         justifyContent: 'space-between',
     },
 
     logo: {
-        marginTop: 30,
+        marginTop: 20,
+        marginBottom: 0,
+        width: 150,
+        height: 90,
+        resizeMode: 'contain'
     },
 
     empty: {
@@ -26,6 +30,7 @@ const styles = StyleSheet.create({
         alignSelf: 'stretch',
         justifyContent: 'center',
         maxHeight: 500,
+        marginTop: 50,
     },
 
     cards: {
@@ -44,6 +49,7 @@ const styles = StyleSheet.create({
     avatar: {
         flex: 1,
         height: 300,
+        backgroundColor: '#fff'
     },
 
     footer: {
@@ -68,6 +74,8 @@ const styles = StyleSheet.create({
     buttonsContainer: {
         flexDirection: 'row',
         marginBottom: 30,
+        justifyContent: 'center', 
+        alignItems: 'center'
     },
 
     button: {

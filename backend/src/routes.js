@@ -7,6 +7,7 @@ const uploadProfile = require('./middlewares/uploadImage');
 const UserController = require('./controllers/UserController');
 const SessionController = require('./controllers/SessionController');
 const ProfileController = require('./controllers/ProfileController');
+const LikeController = require('./controllers/LikeController');
 
 const routes = express.Router();
 
@@ -23,10 +24,11 @@ routes.get('/profile/list', ProfileController.index);
 routes.get('/profile/:id', ProfileController.indexById);
 routes.put('/profile/update/:id', ProfileController.updateProfile);
 routes.post('/profile/verify', ProfileController.verify);
+
 routes.post('/upload-image/:id_profile', uploadProfile.single('image'), ProfileController.uploadPicture);
 routes.get('/show-picture/:id', ProfileController.showPic);
 
-
+routes.post('/like/:userId', LikeController.store);
 
 routes.get("/test", authMiddle, (req, res) => {
     res.send('Very secret number 10!');
