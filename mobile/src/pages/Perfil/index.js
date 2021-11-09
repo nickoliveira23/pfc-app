@@ -103,7 +103,7 @@ export default function Perfil() {
             </View>
             <KeyboardAwareScrollView style={styles.container}>
                 <View style={{ margin: 20, justifyContent: 'center', alignItems: 'center' }}>
-                    <Image style={{ width: 100, height: 100, borderRadius: 100 }} source={{ uri: 'http://192.168.0.6:3333/show-picture/' + idUser }} />
+                    <Image style={{ width: 100, height: 100, borderRadius: 100 }} source={{ uri: 'http://192.168.0.5:3333/show-picture/' + idUser }} />
                 </View>
                 <View style={{ borderBottomColor: '#CCCCCC', borderBottomWidth: 1, borderTopWidth: 1, borderTopColor: '#CCCCCC', paddingHorizontal: 15, paddingVertical: 15, backgroundColor: '#FFFFFF' }}>
                     {!!errorMessage && <Text style={{color: '#FF0000', marginBottom: 20, textAlign:'center'}}>{ errorMessage } </Text>}

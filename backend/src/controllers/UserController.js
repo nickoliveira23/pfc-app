@@ -31,60 +31,60 @@ module.exports = {
     async create(request, response) {
         try {
             const { email, password } = request.body;
-        
+
             const hash = await bcrypt.hash(password, 10);
 
-             const [id] = await connection('user').insert({
+            const [id] = await connection('user').insert({
                 email: email,
                 password: hash,
             });
-    
-            const token = jwt.sign({email: email}, 'superSecretThing');
+
+            const token = jwt.sign({ email: email }, 'superSecretThing');
             return response.json({ id, token: token });
-                       
-        } catch (err){
+
+        } catch (err) {
             console.log(err);
             return response.status(500).send('Algo deu errado!');
         }
     },
 
     async verifyEmail(request, response) {
-        try {          
+        try {
             const { email } = request.body;
 
-            function validateEmail (email) {
+            function validateEmail(email) {
                 const caracteresEspeciais = /\S+@\S+\.\S+/;
                 return caracteresEspeciais.test(email);
-            }            
+            }
 
             const user = await connection('user')
-                .where({ email: email})
+                .where({ email: email })
                 .select('*')
                 .first();
 
-                if (user) {
-                    return response.status(400).json({ error: 'E-mail já cadastrado!' });
+            if (user) {
+                return response.status(400).json({ error: 'E-mail já cadastrado!' });
+            } else {
+                if (email == '') {
+                    return response.status(400).json({ error: 'Preencha o e-mail!' });
                 } else {
-                    if (email == '') {
-                        return response.status(400).json({ error: 'Preencha o e-mail!' });
+                    if (validateEmail(email)) {
+                        return response.json({ email: email })
                     } else {
-                        if (validateEmail(email)) {
-                            return response.json({email: email})
-                        } else {
-                            return response.status(400).json({ error: 'Formato de e-mail não é válido'});
-                        }                      
+                        return response.status(400).json({ error: 'Formato de e-mail não é válido' });
                     }
                 }
+            }
         } catch (err) {
             console.log(err);
-            return response.status(500).json({error: 'Algo deu errado!'});
+            return response.status(500).json({ error: 'Algo deu errado!' });
         }
-        
+
     },
     async verifyPassword(request, response) {
         try {
             const letrasMaiusculas = /[A-Z]/;
-            const letrasMinusculas = /[a-z]/; 
+            const letrasMinusculas = /[a-z]/;
             const numeros = /[0-9]/;
             const caracteresEspeciais = /[!|@|#|$|%|^|&|*|(|)|-|_]/;
 
@@ -92,52 +92,62 @@ module.exports = {
 
             const passwordString = JSON.stringify(password.password).replace(/"/g, '');
 
-            if (passwordString.length  > 8 && passwordString.length < 16 ) {
+            if (passwordString.length > 8 && passwordString.length < 16) {
 
                 var auxMaiuscula = 0;
                 var auxMinuscula = 0;
                 var auxNumero = 0;
                 var auxEspecial = 0;
 
-                for(var i=0; i < passwordString.length; i++){
-                    if(letrasMaiusculas.test(passwordString[i]))
+                for (var i = 0; i < passwordString.length; i++) {
+                    if (letrasMaiusculas.test(passwordString[i]))
                         auxMaiuscula++;
-                        else if(letrasMinusculas.test(passwordString[i]))
-                            auxMinuscula++;
-                            else if(numeros.test(passwordString[i]))
-                                auxNumero++;
-                                else if(caracteresEspeciais.test(passwordString[i]))
-                                    auxEspecial++;
+                    else if (letrasMinusculas.test(passwordString[i]))
+                        auxMinuscula++;
+                    else if (numeros.test(passwordString[i]))
+                        auxNumero++;
+                    else if (caracteresEspeciais.test(passwordString[i]))
+                        auxEspecial++;
                 }
-                if (auxMaiuscula > 0){
-                    if (auxMinuscula > 0){
-                        if (auxNumero > 0){
-                            if (auxEspecial> 0) {
+                if (auxMaiuscula > 0) {
+                    if (auxMinuscula > 0) {
+                        if (auxNumero > 0) {
+                            if (auxEspecial > 0) {
                                 return response.json(password)
                             } else {
-                                return response.status(400).json({ error: 
-                                    'A senha precisa ter entre 8 e 16 dígitos, ao menos uma letra maiuscula e minúscula, um caractere especial e um número!'});
+                                return response.status(400).json({
+                                    error:
+                                        'A senha precisa ter entre 8 e 16 dígitos, ao menos uma letra maiuscula e minúscula, um caractere especial e um número!'
+                                });
                             }
                         } else {
-                            return response.status(400).json({ error: 
-                                'A senha precisa ter entre 8 e 16 dígitos, ao menos uma letra maiuscula e minúscula, um caractere especial e um número!'});
+                            return response.status(400).json({
+                                error:
+                                    'A senha precisa ter entre 8 e 16 dígitos, ao menos uma letra maiuscula e minúscula, um caractere especial e um número!'
+                            });
                         }
                     } else {
-                        return response.status(400).json({ error: 
-                            'A senha precisa ter entre 8 e 16 dígitos, ao menos uma letra maiuscula e minúscula, um caractere especial e um número!'});
+                        return response.status(400).json({
+                            error:
+                                'A senha precisa ter entre 8 e 16 dígitos, ao menos uma letra maiuscula e minúscula, um caractere especial e um número!'
+                        });
                     }
                 } else {
-                    return response.status(400).json({ error: 
-                        'A senha precisa ter entre 8 e 16 dígitos, ao menos uma letra maiuscula e minúscula, um caractere especial e um número!'});
+                    return response.status(400).json({
+                        error:
+                            'A senha precisa ter entre 8 e 16 dígitos, ao menos uma letra maiuscula e minúscula, um caractere especial e um número!'
+                    });
                 }
 
             } else {
-                return response.status(400).json({ error: 
-                    'A senha precisa ter entre 8 e 16 dígitos, ao menos uma letra maiuscula e minúscula, um caractere especial e um número!'});
+                return response.status(400).json({
+                    error:
+                        'A senha precisa ter entre 8 e 16 dígitos, ao menos uma letra maiuscula e minúscula, um caractere especial e um número!'
+                });
             }
         } catch (err) {
             console.log(err);
-            return response.status(500).json({error: 'Algo deu errado!'});
+            return response.status(500).json({ error: 'Algo deu errado!' });
         }
     }
 };

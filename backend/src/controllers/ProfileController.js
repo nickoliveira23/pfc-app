@@ -67,19 +67,30 @@ module.exports = {
         try {
             const { user } = request.headers;
 
-            const target = await connection('like')
+            const targetLike = await connection('like')
                 .where('logged', user)
                 .select('target')
 
-            const element = []
+            const elementLike = []
 
-            for (let i = 0; i < target.length; ++i) {
-                element[i] = target[i].target;
+            for (let i = 0; i < targetLike.length; ++i) {
+                elementLike[i] = targetLike[i].target;
+            }
+
+            const targetNope = await connection('Nope')
+                .where('logged', user)
+                .select('target')
+
+            const elementNope = []
+
+            for (let i = 0; i < targetNope.length; ++i) {
+                elementNope[i] = targetNope[i].target;
             }
 
             const profile = await connection('profile')
                 .whereNot('id_user', user)
-                .whereNotIn('id_user', element)
+                .whereNotIn('id_user', elementLike)
+                .whereNotIn('id_user', elementNope)
                 .select('*');
 
             return response.json(profile);

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
-import { View, Text, TextInput, ScrollView, TouchableOpacity, AsyncStorage, Alert } from 'react-native';
+import { View, Text, TextInput, ScrollView, TouchableOpacity, AsyncStorage, Alert, Platform } from 'react-native';
 import { AntDesign, Ionicons } from '@expo/vector-icons';
 import styles from './styles'
 import api from '../../services/api';
@@ -12,7 +12,15 @@ export default function CadEmail() {
   const [errorMessage, setErrorMessage] = useState(null);
 
   async function navigateBack() {
-    await AsyncStorage.clear();
+    const asyncStorageKeys = await AsyncStorage.getAllKeys();
+    if (asyncStorageKeys.length > 0) {
+      if (Platform.OS === 'android') {
+        await AsyncStorage.clear();
+      }
+      if (Platform.OS === 'ios') {
+        await AsyncStorage.multiRemove(asyncStorageKeys);
+      }
+    }
     navigation.goBack()
   }
 
@@ -53,7 +61,7 @@ export default function CadEmail() {
           <AntDesign name='left' size={30} style={{ alignSelf: 'flex-start' }} color='rgba(0,0,0, 0.75)' onPress={navigateBack} />
           <Text style={styles.txtNumero}>Email</Text>
         </View>
-        <View style={{ marginTop: 0, height: 50, width: 300, borderWidth: 1, borderRadius: 10, borderColor: 'rgb(195,195,197)', flexDirection: 'row', justifyContent: 'left', padding: 10, paddingRight: 50 }}>
+        <View style={{ marginTop: 0, height: 50, width: 300, borderWidth: 1, borderRadius: 10, borderColor: 'rgb(195,195,197)', flexDirection: 'row', padding: 10, paddingRight: 50 }}>
           <Ionicons name="md-person" size={24} color="rgba(0,0,0, 0.75)" style={{ marginRight: 0 }} />
           <View style={{ alignItems: "center", justifyContent: "center", paddingLeft: 10 }}>
             <TextInput autoCapitalize="none" autoCorrect={false} style={{ fontSize: 13 }} value={email} onChangeText={email => setEmail(email)} placeholder='Email                                                 ' />
