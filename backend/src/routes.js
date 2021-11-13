@@ -1,7 +1,6 @@
 const express = require('express');
 
 const authMiddle = require('./middlewares/auth');
-
 const uploadProfile = require('./middlewares/uploadImage');
 
 const UserController = require('./controllers/UserController');
@@ -9,7 +8,6 @@ const SessionController = require('./controllers/SessionController');
 const ProfileController = require('./controllers/ProfileController');
 const LikeController = require('./controllers/LikeController');
 const NopeController = require('./controllers/NopeController');
-
 
 const routes = express.Router();
 
@@ -36,12 +34,8 @@ routes.post('/nope/:userId', NopeController.store);
 routes.get('/like/list', LikeController.index);
 routes.get('/nope/list', NopeController.index);
 
-
-
-
 routes.get("/test", authMiddle, (req, res) => {
     res.send('Very secret number 10!');
   })
-
 
 module.exports = routes;

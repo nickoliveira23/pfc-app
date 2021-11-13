@@ -47,7 +47,11 @@ export default function CadFoto({ route, navigation }){
             
             const response = await api.post(`/upload-image/${idString}`, dataFile, requestConfigFile);
             
-            // navigation.navigate('Index');
+            navigation.reset({
+                index: 0,
+                routes: [{ name: 'Index' }],
+              });
+        
         } catch (err) {
             Alert.alert(err.response.data.mensagem);
         } 

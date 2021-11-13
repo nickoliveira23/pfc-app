@@ -16,9 +16,6 @@ module.exports = {
                 .select('*')
                 .first()
 
-            console.log(user)
-            console.log(userId)
-
             if (!id_user) {
                 return response.status(404).json({ error: 'Nenhum usuário encontrado!' })
             } else {

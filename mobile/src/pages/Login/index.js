@@ -21,15 +21,15 @@ export default function Login() {
 
   async function signIn() {
     try {
-      // const response = await api.post('/session', {
-      //   email: email,
-      //   password: password
-      // });
-
       const response = await api.post('/session', {
-        email: 'c@c.com',
-        password: '123Teste456!'
+        email: email,
+        password: password
       });
+
+      // const response = await api.post('/session', {
+      //   email: 'c@c.com',
+      //   password: '123Teste456!'
+      // });
 
       const { user, token } = response.data;
 
@@ -47,7 +47,7 @@ export default function Login() {
 
       navigation.reset({
         index: 0,
-        routes: [{ name: 'Home', params: {id: id}}],
+        routes: [{ name: 'Home', params: { id: id } }],
       });
 
     } catch (err) {
@@ -74,13 +74,13 @@ export default function Login() {
         <View style={styles.area1}>
           <AntDesign name='left' size={30} style={{ alignSelf: 'flex-start' }} color='rgba(0,0,0, 0.75)' onPress={navigateBack} />
           <Text style={styles.txtSenha}>Login</Text>
-          <View style={{ marginTop: 20, height: 50, width: 300, borderWidth: 1, borderRadius: 10, borderColor: 'rgb(195,195,197)', flexDirection: 'row',  padding: 10, paddingRight: 50 }}>
+          <View style={{ marginTop: 20, height: 50, width: 300, borderWidth: 1, borderRadius: 10, borderColor: 'rgb(195,195,197)', flexDirection: 'row', padding: 10, paddingRight: 50 }}>
             <Ionicons name="md-person" size={24} color="rgba(0,0,0, 0.75)" style={{ marginRight: 0 }} />
             <View style={{ alignItems: "center", justifyContent: "center", paddingLeft: 10 }}>
               <TextInput autoCapitalize="none" autoCorrect={false} style={{ fontSize: 13 }} value={email} onChangeText={email => setEmail(email)} placeholder='Email                                                    ' />
             </View>
           </View>
-          <View style={{ marginTop: 20, height: 50, width: 300, borderWidth: 1, borderRadius: 10, borderColor: 'rgb(195,195,197)', flexDirection: 'row',  padding: 10, paddingRight: 50 }}>
+          <View style={{ marginTop: 20, height: 50, width: 300, borderWidth: 1, borderRadius: 10, borderColor: 'rgb(195,195,197)', flexDirection: 'row', padding: 10, paddingRight: 50 }}>
             <Fontisto name="locked" size={24} color="rgba(0,0,0, 0.75)" />
             <View style={{ alignItems: "center", justifyContent: "center", paddingLeft: 10 }}>
               <TextInput autoCapitalize="none" autoCorrect={false} style={{ fontSize: 13 }} secureTextEntry={true} Value={password} onChangeText={password => setPassword(password)} placeholder='Senha                                                    ' />

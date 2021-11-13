@@ -17,6 +17,7 @@ export default function Perfil() {
 
     const [name, setName] = useState('');
     const [age, setAge] = useState('');
+    const [whatsapp, SetWhatsapp] = useState('');
     const [gender, setGender] = useState('');
     const [city, setCity] = useState('');
     const [uf, setUf] = useState('');
@@ -42,6 +43,7 @@ export default function Perfil() {
             const profile = response.data;
 
             setName(profile.name);
+            SetWhatsapp(profile.whatsapp);
             setAge(JSON.stringify(profile.age));
             setGender(profile.gender);
             setBiography(profile.biography);
@@ -57,6 +59,7 @@ export default function Perfil() {
 
             const response = await api.post('/profile/verify', {
                 name: name,
+                whatsapp: whatsapp,
                 age: age,
                 gender: gender,
                 city: city,
@@ -71,6 +74,7 @@ export default function Perfil() {
 
             const resp = await api.put(`profile/update/${id}`, {
                 name: name,
+                whatsapp: whatsapp,
                 age: age,
                 gender: gender,
                 city: city,
@@ -113,9 +117,15 @@ export default function Perfil() {
                     </View>
                     <View style={{ marginTop: 10, borderBottomWidth: 1, borderBottomColor: '#CCCCCC', paddingBottom: 15 }}>
                         <View style={{ flexDirection: 'row' }}>
+                            <Text style={styles.titulos}>   CELULAR *</Text>
+                        </View>
+                        <TextInput keyboardType='numeric' clearButtonMode='always' style={styles.textInput} maxLength={11} placeholder='Adicione seu número de celular' value={whatsapp} onChangeText={whatsapp => SetWhatsapp(whatsapp)} />
+                    </View>
+                    <View style={{ marginTop: 10, borderBottomWidth: 1, borderBottomColor: '#CCCCCC', paddingBottom: 15 }}>
+                        <View style={{ flexDirection: 'row' }}>
                             <Text style={styles.titulos}>   IDADE *</Text>
                         </View>
-                        <TextInput keyboardType='numeric' clearButtonMode='always' maxLength={2} style={styles.textInput} maxLength={2} placeholder='Adicione sua idade' value={age} onChangeText={age => setAge(age)} />
+                        <TextInput keyboardType='numeric' clearButtonMode='always' style={styles.textInput} maxLength={2} placeholder='Adicione sua idade' value={age} onChangeText={age => setAge(age)} />
                     </View>
                     <View style={{ marginTop: 10, borderBottomWidth: 1, borderBottomColor: '#CCCCCC', paddingBottom: 15 }}>
                         <Text style={styles.titulos}>   GENERO *</Text>

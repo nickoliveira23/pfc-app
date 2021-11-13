@@ -12,6 +12,7 @@ export default function CadPerfil(){
 
     const [name,setName] = useState('');
     const [age,setAge] = useState('');
+    const [whatsapp,setWhatsapp] = useState('');
     const [gender,setGender] = useState('');
     const [city, setCity] = useState('');
     const [uf, setUf] = useState('');
@@ -34,16 +35,16 @@ export default function CadPerfil(){
 
       handleRegister = async () => {
           try {
-            // const resp = await api.post('/profile/verify', {
-            //     name: name,
-            //     age: age,
-            //     gender: gender,
-            //     city: city,
-            //     uf: uf,
-            //     goal: goal,
-            //     biography: biography,
-            // });
-
+            const resp = await api.post('/profile/verify', {
+                name: name,
+                whatsapp: whatsapp,
+                age: age,
+                gender: gender,
+                city: city,
+                uf: uf,
+                goal: goal,
+                biography: biography,
+            });
             const res = await api.post ('/user/register', {
                 email: email,
                 password: password,
@@ -52,6 +53,7 @@ export default function CadPerfil(){
             const user = JSON.parse(userObj);
             const response = await api.post('/profile/register', {
                 name: name,
+                whatsapp: whatsapp,
                 age: age,
                 gender: gender,
                 city: city,
@@ -63,6 +65,7 @@ export default function CadPerfil(){
 
             // const response = await api.post('/profile/register', {
             //     name: 'Nicko',
+            //     whatsapp: '11950282051',
             //     age: 21,
             //     gender: 'Masculino',
             //     city: 'Mogi',
@@ -101,9 +104,15 @@ export default function CadPerfil(){
                     </View>
                     <View style={{marginTop:10,borderBottomWidth:1,borderBottomColor:'#CCCCCC',paddingBottom:15}}>
                         <View style={{flexDirection:'row'}}>
+                            <Text style={styles.titulos}>   CELULAR *</Text>
+                        </View>
+                        <TextInput keyboardType='numeric' clearButtonMode='always' maxLength={11} style={styles.textInput} placeholder='Adicione seu número de celular' value={whatsapp} onChangeText={whatsapp => setWhatsapp(whatsapp)}/>
+                    </View>
+                    <View style={{marginTop:10,borderBottomWidth:1,borderBottomColor:'#CCCCCC',paddingBottom:15}}>
+                        <View style={{flexDirection:'row'}}>
                             <Text style={styles.titulos}>   IDADE *</Text>
                         </View>
-                        <TextInput keyboardType='numeric' clearButtonMode='always' maxLength={2} style={styles.textInput} maxLength={2} placeholder='Adicione sua idade' value={age} onChangeText={age => setAge(age)}/>
+                        <TextInput keyboardType='numeric' clearButtonMode='always' maxLength={2} style={styles.textInput}  placeholder='Adicione sua idade' value={age} onChangeText={age => setAge(age)}/>
                     </View>
                     <View style={{marginTop:10,borderBottomWidth:1,borderBottomColor:'#CCCCCC',paddingBottom:15}}>
                         <Text style={styles.titulos}>   GENERO *</Text>

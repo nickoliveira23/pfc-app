@@ -57,9 +57,6 @@ export default function Home({ route }) {
     async function handleLike() {
         const [profile, ...rest] = profiles;
 
-        console.log(id)
-        console.log(profile.id)
-
         await api.post(`/like/${profile.id}`, {
             user: id
         });
@@ -69,16 +66,9 @@ export default function Home({ route }) {
     async function handleNope() {
         const [profile, ...rest] = profiles;
 
-        console.log(id)
-        console.log(profile.id)
-
-        try {
-            await api.post(`/nope/${profile.id}`, {
-                user: id
-            });
-        } catch (error) {
-            console.log("deu ruim")
-        }
+        await api.post(`/nope/${profile.id}`, {
+            user: id
+        });
         setProfiles(rest);
     }
 
@@ -116,17 +106,17 @@ export default function Home({ route }) {
                         ))
                     )}
             </View>
-            { profiles.length > 0 && (
-            <View style={styles.buttonsContainer} >
-                <TouchableOpacity style={styles.button} onPress={handleLike}>
-                    <Image source={like} />
-                </TouchableOpacity>
+            {profiles.length > 0 && (
+                <View style={styles.buttonsContainer} >
+                    <TouchableOpacity style={styles.button} onPress={handleLike}>
+                        <Image source={like} />
+                    </TouchableOpacity>
 
-                <TouchableOpacity style={styles.button} onPress={handleNope}>
-                    <Image source={nope} />
-                </TouchableOpacity>
-            </View>
-            ) }
+                    <TouchableOpacity style={styles.button} onPress={handleNope}>
+                        <Image source={nope} />
+                    </TouchableOpacity>
+                </View>
+            )}
             {/* <View style={styles.matchContainer}>
                     <Image style={styles.matchItsaMatch} />
 

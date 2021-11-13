@@ -140,11 +140,12 @@ module.exports = {
 
     async create(request, response) {
         try {
-            const { name, age, gender, city,
+            const { name, whatsapp, age, gender, city,
                 uf, goal, biography, id_user } = request.body;
 
             const [id] = await connection('profile').insert({
                 name,
+                whatsapp,
                 age,
                 gender,
                 city,
@@ -163,7 +164,7 @@ module.exports = {
 
     async updateProfile(request, response) {
         try {
-            const { name, age, gender, city,
+            const { name, whatsapp, age, gender, city,
                 uf, goal, biography } = request.body;
 
             const { id } = request.params;
@@ -173,6 +174,7 @@ module.exports = {
             await connection('profile')
                 .update({
                     name,
+                    whatsapp,
                     age,
                     gender,
                     city,
@@ -192,7 +194,7 @@ module.exports = {
 
     async verify(request, response) {
         try {
-            const { name, age, gender, city,
+            const { name, whatsapp, age, gender, city,
                 uf, goal, biography } = request.body;
 
             if (name !== "") {
