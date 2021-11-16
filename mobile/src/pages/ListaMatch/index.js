@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import {
+  Linking,
   ScrollView,
   Text,
   TouchableOpacity,
@@ -12,8 +13,12 @@ import { FontAwesome, Ionicons, AntDesign } from '@expo/vector-icons';
 import data from "../../assets/dados/data";
 import styles, { DARK_GRAY } from "../../assets/styles/index";
 
-export default function Conversas({ navigation }) {
+export default function ListaMatch({ navigation }) {
 
+  async function navigateBack() {
+    await AsyncStorage.clear();
+    navigation.goBack()
+  }
 
   return (
     <ImageBackground
@@ -21,24 +26,26 @@ export default function Conversas({ navigation }) {
     >
       <View style={styles.containerMessages}>
         <View style={styles.top}>
-          <View style={{ marginLeft: 10 }}>
-            <Text style={styles.title}>Mensagens</Text>
+          <View style={{ marginLeft: 10, flexDirection: 'row' }}>
+          <AntDesign name='left' size={25} style={{ alignSelf: 'flex-start' }} color='rgba(0,0,0, 0.75)' onPress={navigateBack} />
+            <Text style={styles.title}>  Match</Text>
           </View>
-          <TouchableOpacity>
+          
+          {/* <TouchableOpacity>
             <FontAwesome name="ellipsis-v" size={24} color={DARK_GRAY} />
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
 
         <FlatList style={{ flex: 1, paddingHorizontal: 10 }}
           data={data}
           keyExtractor={(item, index) => index.toString()}
           renderItem={({ item }) => (
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => Linking.openURL('https://api.whatsapp.com/send?phone='+55+11965918885 /* item.telefone */)}>
               <View style={styles.containerMessage}>
                 <Image source={item.uri} style={styles.avatar} />
                 <View>
                   <Text>{item.name}</Text>
-                  <Text style={styles.message}>lastMessage</Text>
+                  <Text style={styles.message}>Curtiu você ;)</Text>
                 </View>
               </View>
             </TouchableOpacity>

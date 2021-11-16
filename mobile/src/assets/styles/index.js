@@ -149,8 +149,8 @@ export default StyleSheet.create({
   },
   avatar: {
     borderRadius: 30,
-    width: 60,
-    height: 60,
+    width: 100,
+    height: 100,
     marginRight: 20,
     marginVertical: 15,
   },

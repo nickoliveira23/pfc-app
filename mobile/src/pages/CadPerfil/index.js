@@ -99,23 +99,23 @@ export default function CadPerfil(){
                 <View style={{borderBottomColor:'#CCCCCC',borderBottomWidth:1,borderTopWidth:1,borderTopColor:'#CCCCCC',paddingHorizontal:15,paddingVertical:15,backgroundColor:'#FFFFFF'}}>
                 { !!errorMessage && <Text style={{color: '#FF0000', marginBottom: 20, textAlign:'center'}}>{ errorMessage } </Text> }
                     <View style={{borderBottomWidth:1,borderBottomColor:'#CCCCCC',paddingBottom:15}}>
-                        <Text style={styles.titulos}>   NOME *</Text>
+                        <Text style={styles.titulos}>   NOME*</Text>
                         <TextInput keyboardType='default' clearButtonMode='always' maxLength={25} style={styles.textInput} placeholder='Adicione o nome' value={name} onChangeText={name => setName(name)}/>
                     </View>
                     <View style={{marginTop:10,borderBottomWidth:1,borderBottomColor:'#CCCCCC',paddingBottom:15}}>
                         <View style={{flexDirection:'row'}}>
-                            <Text style={styles.titulos}>   CELULAR *</Text>
+                            <Text style={styles.titulos}>   CELULAR*</Text>
                         </View>
                         <TextInput keyboardType='numeric' clearButtonMode='always' maxLength={11} style={styles.textInput} placeholder='Adicione seu número de celular' value={whatsapp} onChangeText={whatsapp => setWhatsapp(whatsapp)}/>
                     </View>
                     <View style={{marginTop:10,borderBottomWidth:1,borderBottomColor:'#CCCCCC',paddingBottom:15}}>
                         <View style={{flexDirection:'row'}}>
-                            <Text style={styles.titulos}>   IDADE *</Text>
+                            <Text style={styles.titulos}>   IDADE*</Text>
                         </View>
                         <TextInput keyboardType='numeric' clearButtonMode='always' maxLength={2} style={styles.textInput}  placeholder='Adicione sua idade' value={age} onChangeText={age => setAge(age)}/>
                     </View>
                     <View style={{marginTop:10,borderBottomWidth:1,borderBottomColor:'#CCCCCC',paddingBottom:15}}>
-                        <Text style={styles.titulos}>   GENERO *</Text>
+                        <Text style={styles.titulos}>   GENERO*</Text>
                         <RNPickerSelect
                             placeholder={{
                                 label: 'Selecionar',
@@ -145,7 +145,7 @@ export default function CadPerfil(){
                         <TextInput  clearButtonMode='always' multiline={true} placeholder='Fale sobre você' maxLength={150} style={[styles.textInput,{height:100}]} value={biography} onChangeText={biography => setBiography(biography)} />
                     </View>
                     <View style={{marginTop:10,borderBottomWidth:1,borderBottomColor:'rgba(0,0,0, 0.05)',paddingBottom:15}}>
-                        <Text style={styles.titulos}>   MOSTRAR *</Text>
+                        <Text style={styles.titulos}>   MOSTRAR*</Text>
                         <RNPickerSelect
                             placeholder={{
                                 label: 'Selecionar',
