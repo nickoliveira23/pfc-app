@@ -23,7 +23,8 @@ export default function CadSenha() {
   async function handlePassword() {
     try {
       const credentials = {
-          password: password
+        password: password
+        //password: "123Teste456!"
       }
       const response = await api.post('/user/passwordVerify', credentials);
       // const response = await api.post('/user/passwordVerify', {

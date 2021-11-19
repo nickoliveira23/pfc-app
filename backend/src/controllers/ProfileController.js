@@ -1,4 +1,3 @@
-const { select } = require('../database/connection');
 const connection = require('../database/connection');
 
 module.exports = {
@@ -67,6 +66,11 @@ module.exports = {
         try {
             const { user } = request.headers;
 
+            const { goal } = await connection('profile')
+                .where('id', user)
+                .select('goal')
+                .first()
+
             const targetLike = await connection('like')
                 .where('logged', user)
                 .select('target')
@@ -87,18 +91,69 @@ module.exports = {
                 elementNope[i] = targetNope[i].target;
             }
 
-            const profile = await connection('profile')
-                .whereNot('id_user', user)
-                .whereNotIn('id_user', elementLike)
-                .whereNotIn('id_user', elementNope)
-                .select('*');
+            if (goal == "Ambos") {
+                const profile = await connection('profile')
+                    .whereNot('id_user', user)
+                    .whereNotIn('id_user', elementLike)
+                    .whereNotIn('id_user', elementNope)
+                    .select('*');
 
-            return response.json(profile);
+                return response.json(profile);
+            }
 
+            if (goal == "Mulheres") {
+                const profile = await connection('profile')
+                    .where('gender', "Feminino")
+                    .whereNot('id_user', user)
+                    .whereNotIn('id_user', elementLike)
+                    .whereNotIn('id_user', elementNope)
+                    .select('*');
+
+                return response.json(profile);
+            }
+
+            if (goal == "Homens") {
+                const profile = await connection('profile')
+                    .where('gender', "Masculino")
+                    .whereNot('id_user', user)
+                    .whereNotIn('id_user', elementLike)
+                    .whereNotIn('id_user', elementNope)
+                    .select('*');
+
+                return response.json(profile);
+            }
 
         } catch (error) {
             console.log(error)
-            return response.json('deu ruim');
+            return response.json({ error: 'Falha ao exibir usuários!' });
+        }
+    },
+
+    async listMatch(request, response) {
+        try {
+            const { user } = request.headers;
+
+            const targetLike = await connection('like')
+                .where('logged', user)
+                .select('target');
+
+            const elementLike = []
+
+            for (let i = 0; i < targetLike.length; ++i) {
+                elementLike[i] = targetLike[i].target;
+            }
+    
+            const match = await connection('like')
+                .join('profile', 'logged', '=', 'profile.id')
+                .whereIn('logged', elementLike)
+                .where('target', user)
+                .select([
+                    'profile.*',
+                ]);
+
+            return response.json(match)
+        } catch (err) {
+            console.log(err)
         }
     },
 
@@ -188,7 +243,7 @@ module.exports = {
             return response.json('ok');
 
         } catch (err) {
-            return response.status(500).json({ error: 'Algo deu errado!' });
+            return response.status(500).json({ error: 'Erro ao atualizar informações de perfil!' });
         }
     },
 

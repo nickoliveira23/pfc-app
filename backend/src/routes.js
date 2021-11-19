@@ -21,6 +21,7 @@ routes.post('/session', SessionController.login);
 
 routes.post('/profile/register', ProfileController.create);
 routes.get('/profile/list', ProfileController.index);
+routes.get('/profile/match', ProfileController.listMatch);
 routes.get('/profile/:id', ProfileController.indexById);
 routes.put('/profile/update/:id', ProfileController.updateProfile);
 routes.post('/profile/verify', ProfileController.verify);

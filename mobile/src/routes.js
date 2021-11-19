@@ -30,7 +30,7 @@ const Stack = createStackNavigator();
 export default function Routes() {
     return (
         <NavigationContainer>
-            <Stack.Navigator initialRouteName="ListaMatch" screenOptions={{ headerShown: false }}>
+            <Stack.Navigator initialRouteName="Index" screenOptions={{ headerShown: false }}>
                 <Stack.Screen name='CadPerfil' component={CadPerfil} />
                 <Stack.Screen name='CadCodigo' component={CadCodigo} />
                 <Stack.Screen name='CadEmail' component={CadEmail} />

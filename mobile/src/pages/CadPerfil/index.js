@@ -164,8 +164,8 @@ export default function CadPerfil(){
                                 value={goal} 
                                 onValueChange={goal => setGoal(goal)}
                             items={[
-                                { label: 'Mulheres', value: 'Mulher' },
-                                { label: 'Homens', value: 'Homem' },
+                                { label: 'Mulheres', value: 'Mulheres' },
+                                { label: 'Homens', value: 'Homens' },
                                 { label: 'Ambos', value: 'Ambos' },
                             ]}
                         /> 
