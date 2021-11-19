@@ -258,7 +258,11 @@ module.exports = {
                         if (age < 61 && age > 17) {
                             if (uf.length == 2 || uf == "") {
                                 if (biography.length < 151) {
-                                    return response.json('Ok!');
+                                    if (whatsapp.length < 11 || whatsapp !== "") {
+                                        return response.json('Ok!');
+                                    } else {
+                                        return response.status(400).json({ error: 'Número de telefone inválido!'})
+                                    }
                                 } else {
                                     return response.status(400).json({ error: 'Biografia não pode ter mais do que 150 caracteres!' });
                                 }

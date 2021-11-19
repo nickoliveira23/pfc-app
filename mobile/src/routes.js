@@ -13,6 +13,9 @@ import Home from './pages/Home';
 import ListaMatch from './pages/ListaMatch';
 import Login from './pages/Login';
 import CadFoto from './pages/CadFoto'
+import Redefinicao from './pages/Redefinicao';
+import RedefinirSenha from './pages/RedefinirSenha'
+import Detail from './pages/Detail'
 
 
 const Stack = createStackNavigator();
@@ -42,6 +45,9 @@ export default function Routes() {
                 <Stack.Screen name='Index' component={Index} />
                 <Stack.Screen name='Login' component={Login} />
                 <Stack.Screen name='CadFoto' component={CadFoto} />
+                <Stack.Screen name='Redefinicao' component={Redefinicao} />
+                <Stack.Screen name='RedefinirSenha' component={RedefinirSenha} />
+                <Stack.Screen name='Detail' component={Detail} />
             </Stack.Navigator>
         </NavigationContainer>
     );

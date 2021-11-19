@@ -14,6 +14,10 @@ export default function Index() {
     navigation.navigate('CadEmail');
   }
 
+  function navigateRedefinicao() {
+    navigation.navigate("Redefinicao")
+  }
+
   // useEffect(() => {
   //   async function ClearStorage() {
   //     await AsyncStorage.clear();
@@ -35,7 +39,9 @@ export default function Index() {
         <TouchableOpacity style={[styles.botao, { backgroundColor: 'transparent', borderColor: '#FFFFFF', marginTop: 20 }]} onPress={navigateLogin}>
           <Text style={{ color: '#FFFFFF' }}>ENTRAR</Text>
         </TouchableOpacity>
-        <Text style={styles.txtProb}>Problemas para fazer login?</Text>
+        <TouchableOpacity onPress={navigateRedefinicao}>
+          <Text style={styles.txtProb}>Problemas para fazer login?</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );

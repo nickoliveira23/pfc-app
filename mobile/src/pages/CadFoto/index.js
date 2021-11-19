@@ -89,9 +89,6 @@ export default function CadFoto({ route, navigation }){
                     <EvilIcons name="user" size={150} color="rgba(0,0,0, 0.75)" style={{paddingBottom:15}}/>
                 </TouchableOpacity>
             </View>
-            <View style={{ justifyContent: 'center', alignItems: 'center'}}>
-                <Image style={{ width: 100, height: 100, borderRadius: 100}} source={{uri: 'http://192.168.0.8:3333/show-picture/1'}}/>  
-            </View>
             
                 
         {types && (

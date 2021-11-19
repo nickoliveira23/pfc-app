@@ -25,6 +25,10 @@ export default function ListaMatch({ route }) {
     navigation.goBack()
   }
 
+  function navigateToDetail(profile) {
+    navigation.navigate('Detail', { profile });
+}
+
   useEffect(() => {
     async function loadUsers() {
       try {
@@ -56,7 +60,7 @@ export default function ListaMatch({ route }) {
           data={profiles}
           keyExtractor={profile => String(profile.id)}
           renderItem={({ item: profile }) => (
-            <TouchableOpacity onPress={() => Linking.openURL('https://api.whatsapp.com/send?phone=' + 55 + profile.whatsapp /* item.telefone */)}>
+            <TouchableOpacity onPress={() => navigateToDetail(profile)}>
               <View style={styles.containerMessage}>
                 <Image source={{ uri: api.defaults.baseURL + '/show-picture/' + profile.id }} style={styles.avatar} />
                 <View>

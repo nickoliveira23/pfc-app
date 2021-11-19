@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { View, Text, TextInput, ScrollView, TouchableOpacity, AsyncStorage, Alert, Platform } from 'react-native';
 import { AntDesign, Ionicons } from '@expo/vector-icons';
-import styles from './styles'
+import styles from './styles';
 import api from '../../services/api';
 
-export default function CadEmail() {
+export default function Redefinicao() {
 
   const navigation = useNavigation();
   const [email, setEmail] = useState('');
@@ -24,18 +24,15 @@ export default function CadEmail() {
     navigation.goBack()
   }
 
-  function navigateSenha() {
-    navigation.navigate('CadSenha');
+  function navigateCadCodigo() {
+    navigation.navigate('CadCodigo');
   }
 
   async function handleEmail() {
     try {
-      const response = await api.post('/user/emailVerify', {
+      const response = await api.post('/user/redefinicao', {
         email: email
       });
-      // const response = await api.post('/user/emailVerify', {
-      //   email: 'nickolas.oliveira02@gmail.com'
-      // });
 
       const user = response.data;
 
@@ -46,7 +43,7 @@ export default function CadEmail() {
         routes: [{ name: 'Index' }],
       });
 
-      navigateSenha();
+      navigateCadCodigo();
 
     } catch (err) {
       setErrorMessage(err.response.data.error);

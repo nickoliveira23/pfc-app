@@ -16,7 +16,8 @@ routes.post('/user/register', UserController.create);
 routes.get('/user/listAll', UserController.indexUserProfile);
 routes.post('/user/emailVerify', UserController.verifyEmail);
 routes.post('/user/passwordVerify', UserController.verifyPassword);
-
+routes.post('/user/redefinicao', UserController.redefinicao);
+routes.put('/user/update', UserController.redefinirSenha);
 routes.post('/session', SessionController.login);
 
 routes.post('/profile/register', ProfileController.create);
