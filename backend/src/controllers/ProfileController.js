@@ -1,4 +1,6 @@
 const connection = require('../database/connection');
+const fs = require('fs');
+
 
 module.exports = {
     async showPic(request, response) {
@@ -60,6 +62,55 @@ module.exports = {
             console.log(err);
         }
 
+    },
+
+    async updatePicture(request, response) {
+        try {
+            if (request.file) {
+
+                const { fieldname, originalname, encoding, mimetype, destination,
+                    filename, path, size } = request.file;
+
+                const { id_profile } = request.params;
+
+                const caminho = await connection('picture')
+                    .where('id_profile', id_profile)
+                    .first();
+
+                fs.unlink(caminho.path, (err) => {
+                    if (err) {
+                        console.error(err)
+                        return
+                    }
+                })
+
+                await connection('picture')
+                    .update({
+                        fieldname,
+                        originalname,
+                        encoding,
+                        mimetype,
+                        destination,
+                        filename,
+                        path,
+                        size,
+                        id_profile
+                    })
+                    .where({ id_profile })
+
+                return response.status(200).json({
+                    erro: false,
+                    mensagem: 'Upload realizado com sucesso',
+                })
+                console.log('ok')
+            }
+            return response.status(400).json({
+                erro: true,
+                mensagem: 'Upload não realizado com sucesso'
+            });
+        } catch (err) {
+            console.log(err);
+        }
     },
 
     async index(request, response) {
@@ -142,7 +193,7 @@ module.exports = {
             for (let i = 0; i < targetLike.length; ++i) {
                 elementLike[i] = targetLike[i].target;
             }
-    
+
             const match = await connection('like')
                 .join('profile', 'logged', '=', 'profile.id')
                 .whereIn('logged', elementLike)
@@ -166,26 +217,6 @@ module.exports = {
                 .select('*')
                 .first();
 
-            // const profile = await connection('profile')
-            //     .where('id_user', id)
-            //     .join('picture', 'id_profile', '=', 'profile.id')
-            //     .select([
-            //         'profile.*',
-            //         'picture.filename',
-            //         'picture.destination']);
-
-            // const picture = await connection('picture')
-            //     .where('id_profile', id)
-            //     .select('*')
-            //     .first();
-
-            // const filename = picture.filename;
-            // const filepath = picture.destination;
-
-
-
-            //return response.json(profile).sendFile(filename, { root: filepath})
-            //return response.sendFile(filename, { root: filepath});
             return response.json(profile)
         } catch (err) {
             console.log(err)
@@ -258,10 +289,10 @@ module.exports = {
                         if (age < 61 && age > 17) {
                             if (uf.length == 2 || uf == "") {
                                 if (biography.length < 151) {
-                                    if (whatsapp.length < 11 || whatsapp !== "") {
-                                        return response.json('Ok!');
+                                    if (whatsapp.length == 11) {
+                                        return response.json();
                                     } else {
-                                        return response.status(400).json({ error: 'Número de telefone inválido!'})
+                                        return response.status(400).json({ error: 'Número de telefone inválido!' })
                                     }
                                 } else {
                                     return response.status(400).json({ error: 'Biografia não pode ter mais do que 150 caracteres!' });

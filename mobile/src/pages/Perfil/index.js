@@ -1,15 +1,87 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Alert, AsyncStorage, Image } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons, Feather } from '@expo/vector-icons';
 import RNPickerSelect from 'react-native-picker-select';
 import { useNavigation } from '@react-navigation/native';
-
+import * as ImagePicker from "expo-image-picker";
+import * as Permissions from 'expo-permissions';
 import styles from './styles'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import api from '../../services/api';
 
 export default function Perfil() {
     const navigation = useNavigation();
+
+    function navigateBack() {
+        navigation.goBack()
+    }
+
+    const [picturePreview, setPicturePreview] = useState("");
+    // const [types, setTypes] = useState(false);
+    // function handleSelectTypeImage() {
+    //     setTypes(true);
+    // }
+
+    
+
+    async function UploadImage(imagem_recebida) {
+        try {
+            //const userAuthToken = "TOKEN_DE_ACESSO_A_API";
+            const requestConfigFile = {
+                headers: {
+                    //Authorization: `bearer ${userAuthToken}`,
+                    "Content-Type": "multipart/form-data"
+                }
+            };
+
+            const dataFile = new FormData();
+            const fileURL = imagem_recebida.uri;
+            const fileName = fileURL.split("/").pop();
+            const ext = fileURL.split(".").pop();
+
+            dataFile.append("image", {
+                uri: fileURL, // Caminho da imagem
+                name: fileName,
+                type: "image/" + ext
+            });
+
+            await api.put(`/update-image/${idUser}`, dataFile, requestConfigFile);
+
+            navigation.reset({
+                index: 0,
+                routes: [{ name: 'Home', params: { id: idUser } }],
+            });
+
+        } catch (err) {
+            Alert.alert(err.response.data.mensagem);
+        }
+    }
+
+    // async function handleSelectCamera() {
+    //     setTypes(false);
+    //     const result = await ImagePicker.launchCameraAsync({
+    //         mediaTypes: ImagePicker.MediaTypeOptions.Images,
+    //         allowsEditing: true,
+    //     })
+
+    //     setPicturePreview(result.uri);
+    //     UploadImage(result);
+    // }
+
+    async function handleSelectGalery() {
+        // setTypes(false);
+        const result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.Images,
+            allowsEditing: true,
+        });
+
+        if (result.cancelled) {
+            return;
+        } else {
+            setPicturePreview(result.uri);
+            UploadImage(result);
+        }
+    }
 
     function navigateHome() {
         navigation.navigate('Home');
@@ -23,8 +95,6 @@ export default function Perfil() {
     const [uf, setUf] = useState('');
     const [goal, setGoal] = useState('');
     const [biography, setBiography] = useState('');
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
     const [idUser, setIdUser] = useState('');
 
@@ -95,22 +165,43 @@ export default function Perfil() {
     return (
         <View style={{ flex: 1 }}>
             <View style={styles.header}>
-                <View style={{ flex: 1, alignItems: 'center' }}></View>
+                <View style={{ flex: 1, alignItems: 'center' }}>
+                    <TouchableOpacity onPress={navigateBack} style={{ right: 20 }}>
+                        <Feather name="arrow-left" size={28} color="#000" />
+                    </TouchableOpacity>
+                </View>
                 <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                     <Text style={{ fontSize: 15, fontWeight: '600', textAlign: 'center' }}>Editar Informações</Text>
                 </View>
                 <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                     <TouchableOpacity onPress={handleUpdate}>
-                        <Text style={{ color: '#ff8c00ad', top: 10, left: 20, fontSize: 15 }}>Concluido</Text>
+                        <Text style={{ color: '#ff8c00ad', left: 20, fontSize: 15 }}>Concluido</Text>
                     </TouchableOpacity>
                 </View>
             </View>
-            <KeyboardAwareScrollView style={styles.container}>
+            <KeyboardAwareScrollView showsVerticalScrollIndicator={false} style={styles.container}>
                 <View style={{ margin: 20, justifyContent: 'center', alignItems: 'center' }}>
-                    <Image style={{ width: 100, height: 100, borderRadius: 100 }} source={{ uri: api.defaults.baseURL + '/show-picture/' + idUser }} />
+                    <TouchableOpacity onPress={() => handleSelectGalery()}>
+                        <Image style={{ width: 100, height: 100, borderRadius: 100 }} source={{ uri: api.defaults.baseURL + '/show-picture/' + idUser }} />
+                    </TouchableOpacity>
                 </View>
+                {/* {types && (
+                    <View style={{ marginBottom: 10, flexDirection: 'row', justifyContent: 'space-between' }}>
+                        <View style={{ paddingTop: 5, paddingLeft: 80, paddingBottom: 5 }}>
+                            <TouchableOpacity onPress={handleSelectGalery} >
+                                <Text style={{ color: '#ff8c00ad' }}>Galeria</Text>
+                            </TouchableOpacity>
+                        </View>
+                        <View style={{ paddingTop: 5, paddingRight: 80, paddingBottom: 5 }}>
+                            <TouchableOpacity onPress={handleSelectCamera}>
+                                <Text style={{ color: '#ff8c00ad' }}>Câmera</Text>
+                            </TouchableOpacity>
+                        </View>
+
+                    </View>
+                )} */}
                 <View style={{ borderBottomColor: '#CCCCCC', borderBottomWidth: 1, borderTopWidth: 1, borderTopColor: '#CCCCCC', paddingHorizontal: 15, paddingVertical: 15, backgroundColor: '#FFFFFF' }}>
-                    {!!errorMessage && <Text style={{color: '#FF0000', marginBottom: 20, textAlign:'center'}}>{ errorMessage } </Text>}
+                    {!!errorMessage && <Text style={{ color: '#FF0000', marginBottom: 20, textAlign: 'center' }}>{errorMessage} </Text>}
                     <View style={{ borderBottomWidth: 1, borderBottomColor: '#CCCCCC', paddingBottom: 15 }}>
                         <Text style={styles.titulos}>   NOME *</Text>
                         <TextInput keyboardType='default' clearButtonMode='always' maxLength={25} style={styles.textInput} placeholder='Adicione o nome' value={name} onChangeText={name => setName(name)} />

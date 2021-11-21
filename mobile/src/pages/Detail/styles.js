@@ -21,12 +21,23 @@ export default StyleSheet.create({
         alignItems: 'center'
     },
 
+    imageCard: {
+        borderWidth: 1,
+        borderColor: '#DDD',
+        borderRadius: 8,
+        marginBottom: 16,
+        //resizeMode: 'contain',
+        height: 300,
+        backgroundColor: '#fff'
+       
+    },
+
     profile: {
         padding: 24,
         borderRadius: 8,
         backgroundColor: '#FFF',
         marginBottom: 16,
-        marginTop: 18,
+        marginTop: 0,
     },
 
     profileItem: {

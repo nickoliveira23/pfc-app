@@ -26,7 +26,7 @@ export default function ListaMatch({ route }) {
   }
 
   function navigateToDetail(profile) {
-    navigation.navigate('Detail', { profile });
+    navigation.navigate('Detail', { profile, id });
 }
 
   useEffect(() => {

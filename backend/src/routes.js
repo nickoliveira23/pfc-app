@@ -28,6 +28,7 @@ routes.put('/profile/update/:id', ProfileController.updateProfile);
 routes.post('/profile/verify', ProfileController.verify);
 
 routes.post('/upload-image/:id_profile', uploadProfile.single('image'), ProfileController.uploadPicture);
+routes.put('/update-image/:id_profile', uploadProfile.single('image'), ProfileController.updatePicture);
 routes.get('/show-picture/:id', ProfileController.showPic);
 
 routes.post('/like/:userId', LikeController.store);
@@ -35,9 +36,11 @@ routes.post('/nope/:userId', NopeController.store);
 
 routes.get('/like/list', LikeController.index);
 routes.get('/nope/list', NopeController.index);
+routes.delete('/cancelMatch/:target', LikeController.cancelMatch);
+
 
 routes.get("/test", authMiddle, (req, res) => {
-    res.send('Very secret number 10!');
-  })
+  res.send('Very secret number 10!');
+})
 
 module.exports = routes;

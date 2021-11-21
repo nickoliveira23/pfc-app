@@ -21,15 +21,10 @@ export default function Login() {
 
   async function signIn() {
     try {
-      // const response = await api.post('/session', {
-      //   email: email,
-      //   password: password
-      // });
-
       const response = await api.post('/session', {
         email: email,
-        password: password
-        //password: '123Teste456!'
+        //password: password
+        password: '123Teste456!'
       });
 
       const { user, token } = response.data;

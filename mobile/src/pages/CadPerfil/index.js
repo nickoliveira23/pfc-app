@@ -95,7 +95,7 @@ export default function CadPerfil(){
                     </TouchableOpacity>
                 </View>
             </View>
-            <KeyboardAwareScrollView style={styles.container}>  
+            <KeyboardAwareScrollView showsVerticalScrollIndicator={false} style={styles.container}>  
                 <View style={{borderBottomColor:'#CCCCCC',borderBottomWidth:1,borderTopWidth:1,borderTopColor:'#CCCCCC',paddingHorizontal:15,paddingVertical:15,backgroundColor:'#FFFFFF'}}>
                 { !!errorMessage && <Text style={{color: '#FF0000', marginBottom: 20, textAlign:'center'}}>{ errorMessage } </Text> }
                     <View style={{borderBottomWidth:1,borderBottomColor:'#CCCCCC',paddingBottom:15}}>

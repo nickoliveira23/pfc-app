@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import {View, Text, TextInput, TouchableOpacity, Alert, AsyncStorage, Image} from 'react-native';
-import { EvilIcons, Ionicons } from '@expo/vector-icons';
+import {View, Text, TouchableOpacity, Alert } from 'react-native';
+import { EvilIcons } from '@expo/vector-icons';
 import * as ImagePicker from "expo-image-picker";
 import { useNavigation } from '@react-navigation/native';
 import styles from './styles'
@@ -8,11 +8,11 @@ import api from '../../services/api';
 
 export default function CadFoto({ route, navigation }){
     const [picturePreview, setPicturePreview] = useState("");
-    const [types, setTypes] = useState(false);
     const [id, setId] = useState('');
-    function handleSelectTypeImage() {
-        setTypes(true);
-    }
+    // const [types, setTypes] = useState(false);
+    // function handleSelectTypeImage() {
+    //     setTypes(true);
+    // }
 
     useEffect (() => {
         async function SampleComponent() {
@@ -57,19 +57,19 @@ export default function CadFoto({ route, navigation }){
         } 
     }
 
-    async function handleSelectCamera() {
-        setTypes(false);
-        const result = await ImagePicker.launchCameraAsync({
-          mediaTypes: ImagePicker.MediaTypeOptions.Images,
-          allowsEditing: true,
-        })
+    // async function handleSelectCamera() {
+    //     setTypes(false);
+    //     const result = await ImagePicker.launchCameraAsync({
+    //       mediaTypes: ImagePicker.MediaTypeOptions.Images,
+    //       allowsEditing: true,
+    //     })
 
-        setPicturePreview(result.uri);
-        UploadImage(result);
-    }
+    //     setPicturePreview(result.uri);
+    //     UploadImage(result);
+    // }
       
     async function handleSelectGalery() {
-        setTypes(false);
+        // setTypes(false);
         const result = await ImagePicker.launchImageLibraryAsync({
           mediaTypes: ImagePicker.MediaTypeOptions.Images,
           allowsEditing: true,
@@ -85,13 +85,13 @@ export default function CadFoto({ route, navigation }){
     return (
         <View style={{justifyContent: 'center', flex:1}}>
             <View style={{alignItems:'center'}}>
-                <TouchableOpacity onPress={() => handleSelectTypeImage()}>
+                <TouchableOpacity onPress={() => handleSelectGalery()}>
                     <EvilIcons name="user" size={150} color="rgba(0,0,0, 0.75)" style={{paddingBottom:15}}/>
                 </TouchableOpacity>
             </View>
             
                 
-        {types && (
+        {/* {types && (
             <View style={{flexDirection:'row', justifyContent:'space-between' }}>
                 <View style={{paddingTop:5, paddingLeft: 80, paddingBottom: 5}}>
                     <TouchableOpacity  onPress={handleSelectGalery} >
@@ -105,7 +105,7 @@ export default function CadFoto({ route, navigation }){
                 </View>
                     
             </View>
-        )}  
+        )}   */}
         </View>  
         
     );

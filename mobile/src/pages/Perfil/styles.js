@@ -5,8 +5,7 @@ const styles = StyleSheet.create({
         flex:1,
     },
     header:{
-        height:60,
-        paddingTop:10,
+        marginTop: 40,
         flexDirection:'row',
     },
     titulos:{

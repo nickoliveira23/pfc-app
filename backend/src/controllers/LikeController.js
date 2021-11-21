@@ -62,5 +62,24 @@ module.exports = {
         const likes = await connection('like').select('*');
 
         return response.json(likes);
+    },
+
+    async cancelMatch(request, response) {
+
+        try {
+            const { logged } = request.headers;
+            const { target } = request.params;
+
+            await connection('like')
+                .where({
+                    logged: logged,
+                    target: target
+                })
+                .delete()
+
+            return response.json('Unmatch realizado com sucesso!')
+        } catch (error) {
+            console.log(error)
+        }
     }
 };

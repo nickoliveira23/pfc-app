@@ -229,7 +229,11 @@ export default StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
   },
-  title: { paddingBottom: 10, fontSize: 22, color: DARK_GRAY },
+  title: { 
+    fontSize: 22, 
+    fontWeight: '600', 
+    textAlign: 'center'
+  },
 
   // CONTAINER - HOME
   containerHome: {
