@@ -37,31 +37,13 @@ module.exports = {
                                 logged: id,
                                 target: id_user.id
                             })
-
-                        const verifyMatch = await connection('like')
-                            .where({
-                                logged: id_user.id,
-                                target: id
-                            })
-                            .select('*')
-                            .first()
-
-                        if (verifyMatch) {
-                            return response.json({ message: 'OPA, É UM MATCH' })
-                        }
-                        return response.json('like realizado com sucesso')
+                        return response.json({ message: 'like realizado com sucesso' })
                     }
                 }
             }
         } catch (err) {
             console.log(err)
         }
-    },
-
-    async index(request, response) {
-        const likes = await connection('like').select('*');
-
-        return response.json(likes);
     },
 
     async cancelMatch(request, response) {
@@ -77,7 +59,7 @@ module.exports = {
                 })
                 .delete()
 
-            return response.json('Unmatch realizado com sucesso!')
+            return response.json('Match cancelado com sucesso!')
         } catch (error) {
             console.log(error)
         }

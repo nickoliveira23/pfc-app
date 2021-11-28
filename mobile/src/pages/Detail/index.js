@@ -1,9 +1,9 @@
 import React from 'react';
 import { Feather } from '@expo/vector-icons';
-import { useNavigation, useRoute } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import { View, Text, Image, TouchableOpacity, Linking, ScrollView, Alert } from 'react-native';
 
-import logo from '../../assets/wonderDark.png';
+import logo from '../../assets/logo3x.png';
 
 import styles from './styles';
 import api from '../../services/api';

@@ -4,7 +4,6 @@ import { Ionicons, Feather } from '@expo/vector-icons';
 import RNPickerSelect from 'react-native-picker-select';
 import { useNavigation } from '@react-navigation/native';
 import * as ImagePicker from "expo-image-picker";
-import * as Permissions from 'expo-permissions';
 import styles from './styles'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import api from '../../services/api';
@@ -16,20 +15,10 @@ export default function Perfil() {
         navigation.goBack()
     }
 
-    const [picturePreview, setPicturePreview] = useState("");
-    // const [types, setTypes] = useState(false);
-    // function handleSelectTypeImage() {
-    //     setTypes(true);
-    // }
-
-    
-
     async function UploadImage(imagem_recebida) {
         try {
-            //const userAuthToken = "TOKEN_DE_ACESSO_A_API";
             const requestConfigFile = {
                 headers: {
-                    //Authorization: `bearer ${userAuthToken}`,
                     "Content-Type": "multipart/form-data"
                 }
             };
@@ -57,19 +46,7 @@ export default function Perfil() {
         }
     }
 
-    // async function handleSelectCamera() {
-    //     setTypes(false);
-    //     const result = await ImagePicker.launchCameraAsync({
-    //         mediaTypes: ImagePicker.MediaTypeOptions.Images,
-    //         allowsEditing: true,
-    //     })
-
-    //     setPicturePreview(result.uri);
-    //     UploadImage(result);
-    // }
-
     async function handleSelectGalery() {
-        // setTypes(false);
         const result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.Images,
             allowsEditing: true,
@@ -78,7 +55,6 @@ export default function Perfil() {
         if (result.cancelled) {
             return;
         } else {
-            setPicturePreview(result.uri);
             UploadImage(result);
         }
     }
@@ -89,7 +65,7 @@ export default function Perfil() {
 
     const [name, setName] = useState('');
     const [age, setAge] = useState('');
-    const [whatsapp, SetWhatsapp] = useState('');
+    const [whatsapp, setWhatsapp] = useState('');
     const [gender, setGender] = useState('');
     const [city, setCity] = useState('');
     const [uf, setUf] = useState('');
@@ -101,7 +77,6 @@ export default function Perfil() {
     useEffect(() => {
         async function LoadData() {
             const userObj = await AsyncStorage.getItem('@CodeApi:user');
-            const tokenObj = await AsyncStorage.getItem('@CodeApi:token');
 
             const userString = JSON.parse(userObj);
             const { id } = userString;
@@ -113,7 +88,7 @@ export default function Perfil() {
             const profile = response.data;
 
             setName(profile.name);
-            SetWhatsapp(profile.whatsapp);
+            setWhatsapp(profile.whatsapp);
             setAge(JSON.stringify(profile.age));
             setGender(profile.gender);
             setBiography(profile.biography);
@@ -127,7 +102,7 @@ export default function Perfil() {
     async function handleUpdate() {
         try {
 
-            const response = await api.post('/profile/verify', {
+            const validation = await api.post('/profile/verify', {
                 name: name,
                 whatsapp: whatsapp,
                 age: age,
@@ -142,20 +117,20 @@ export default function Perfil() {
             const userString = JSON.parse(userObj);
             const id = userString.id;
 
-            const resp = await api.put(`profile/update/${id}`, {
+            await api.put(`profile/update/${id}`, {
                 name: name,
                 whatsapp: whatsapp,
                 age: age,
                 gender: gender,
+                biography: biography,
+                goal: goal,
                 city: city,
                 uf: uf,
-                goal: goal,
-                biography: biography,
             });
 
-            Alert.alert('Atualizado com sucesso!')
-            navigateHome()
+            Alert.alert(validation.data.message)
 
+            navigateHome()
         } catch (err) {
             setErrorMessage(err.response.data.error);
             Alert.alert(err.response.data.error);
@@ -185,26 +160,11 @@ export default function Perfil() {
                         <Image style={{ width: 100, height: 100, borderRadius: 100 }} source={{ uri: api.defaults.baseURL + '/show-picture/' + idUser }} />
                     </TouchableOpacity>
                 </View>
-                {/* {types && (
-                    <View style={{ marginBottom: 10, flexDirection: 'row', justifyContent: 'space-between' }}>
-                        <View style={{ paddingTop: 5, paddingLeft: 80, paddingBottom: 5 }}>
-                            <TouchableOpacity onPress={handleSelectGalery} >
-                                <Text style={{ color: '#ff8c00ad' }}>Galeria</Text>
-                            </TouchableOpacity>
-                        </View>
-                        <View style={{ paddingTop: 5, paddingRight: 80, paddingBottom: 5 }}>
-                            <TouchableOpacity onPress={handleSelectCamera}>
-                                <Text style={{ color: '#ff8c00ad' }}>Câmera</Text>
-                            </TouchableOpacity>
-                        </View>
-
-                    </View>
-                )} */}
                 <View style={{ borderBottomColor: '#CCCCCC', borderBottomWidth: 1, borderTopWidth: 1, borderTopColor: '#CCCCCC', paddingHorizontal: 15, paddingVertical: 15, backgroundColor: '#FFFFFF' }}>
                     {!!errorMessage && <Text style={{ color: '#FF0000', marginBottom: 20, textAlign: 'center' }}>{errorMessage} </Text>}
                     <View style={{ borderBottomWidth: 1, borderBottomColor: '#CCCCCC', paddingBottom: 15 }}>
                         <Text style={styles.titulos}>   NOME *</Text>
-                        <TextInput keyboardType='default' clearButtonMode='always' maxLength={25} style={styles.textInput} placeholder='Adicione o nome' value={name} onChangeText={name => setName(name)} />
+                        <TextInput keyboardType='default' multiline={false} clearButtonMode='always' maxLength={25} style={styles.textInput} placeholder='Adicione o nome' value={name} onChangeText={name => setName(name)} />
                     </View>
                     <View style={{ marginTop: 10, borderBottomWidth: 1, borderBottomColor: '#CCCCCC', paddingBottom: 15 }}>
                         <View style={{ flexDirection: 'row' }}>
@@ -246,7 +206,7 @@ export default function Perfil() {
                     </View>
                     <View style={{ marginTop: 10, borderBottomWidth: 1, borderBottomColor: '#CCCCCC', paddingBottom: 15 }}>
                         <Text style={styles.titulos}>   SOBRE MIM</Text>
-                        <TextInput clearButtonMode='always' multiline={true} placeholder='Fale sobre você' maxLength={150} style={[styles.textInput, { height: 100 }]} value={biography} onChangeText={biography => setBiography(biography)} />
+                        <TextInput multiline={true} placeholder='Fale sobre você' maxLength={150} style={[styles.textInput, { height: 100 }]} value={biography} onChangeText={biography => setBiography(biography)} />
                     </View>
                     <View style={{ marginTop: 10, borderBottomWidth: 1, borderBottomColor: 'rgba(0,0,0, 0.05)', paddingBottom: 15 }}>
                         <Text style={styles.titulos}>   MOSTRAR *</Text>
@@ -276,11 +236,11 @@ export default function Perfil() {
                     </View>
                     <View style={{ marginTop: 10, borderBottomWidth: 1, borderBottomColor: 'rgba(0,0,0, 0.05)', paddingBottom: 15 }}>
                         <Text style={styles.titulos}>   CIDADE</Text>
-                        <TextInput placeholderTextColor='rgba(0,0,0, 0.50)' placeholder='Adicionar Cidade' clearButtonMode='always' multiline={true} maxLength={100} style={styles.textInput} value={city} onChangeText={city => setCity(city)} />
+                        <TextInput placeholderTextColor='rgba(0,0,0, 0.50)' placeholder='Adicionar Cidade' clearButtonMode='always' multiline={false} maxLength={100} style={styles.textInput} value={city} onChangeText={city => setCity(city)} />
                     </View>
                     <View style={{ marginTop: 10, borderBottomWidth: 1, borderBottomColor: 'rgba(0,0,0, 0.05)', paddingBottom: 15 }}>
                         <Text style={styles.titulos}>   UF</Text>
-                        <TextInput placeholderTextColor='rgba(0,0,0, 0.50)' placeholder='Adicionar Uf' clearButtonMode='always' multiline={true} maxLength={2} style={styles.textInput} value={uf} onChangeText={uf => setUf(uf)} />
+                        <TextInput autoCapitalize='characters' placeholderTextColor='rgba(0,0,0, 0.50)' placeholder='Adicionar Uf' clearButtonMode='always' multiline={false} maxLength={2} style={styles.textInput} value={uf} onChangeText={uf => setUf(uf)} />
                     </View>
                 </View>
             </KeyboardAwareScrollView>

@@ -17,8 +17,8 @@ module.exports = {
             if (user) {
                 const validPass = await bcrypt.compare(password, user.password);
                 if (validPass) {
-                    const token = jwt.sign({ email: email }, 'superSecretThing', { expiresIn: 300 });
-                    return response.json({ user, token: token });
+                    const token = jwt.sign({ email: email }, 'superSecretThing', { expiresIn: 1200 });
+                    return response.json({ user, token: token, message: 'Login realizado com sucesso!' });
                 } else {
                     if (validPass == '') {
                         return response.status(400).json({ error: 'Digite uma senha!' });
@@ -31,8 +31,7 @@ module.exports = {
             }
         } catch (err) {
             console.log(err);
-            return response.status(500).json({ error: 'Algo deu errado' });
+            return response.status(500).json({ error: 'Erro ao fazer login no aplicativo!' });
         }
-
     }
 };

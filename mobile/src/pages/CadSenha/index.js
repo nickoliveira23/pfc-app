@@ -24,12 +24,8 @@ export default function CadSenha() {
     try {
       const credentials = {
         password: password
-        //password: "123Teste456!"
       }
       const response = await api.post('/user/passwordVerify', credentials);
-      // const response = await api.post('/user/passwordVerify', {
-      //   password: '123Nicko456!'
-      // });
 
       const user = response.data;
 
@@ -41,7 +37,6 @@ export default function CadSenha() {
       });
 
       navigatePerfil();
-
     } catch (err) {
       setErrorMessage(err.response.data.error);
       Alert.alert(err.response.data.error);

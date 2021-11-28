@@ -38,17 +38,12 @@ module.exports = {
                                 target: id_user.id
                             })
 
-                        return response.json('Nope realizado com sucesso')
+                        return response.json({ message: 'Nope realizado com sucesso' })
                     }
                 }
             }
         } catch (err) {
             console.log(err)
         }
-    },
-    async index(request, response) {
-        const nopes = await connection('nope').select('*');
-
-        return response.json(nopes);
     }
 };

@@ -5,13 +5,12 @@ import { AntDesign, Ionicons } from '@expo/vector-icons';
 import styles from './styles';
 import like from '../../assets/like.png'
 import nope from '../../assets/nope.png'
-import logo from '../../assets/wonderDark.png'
+import logo from '../../assets/logo3x.png'
 import api from '../../services/api';
 
 export default function Home({ route }) {
     const navigation = useNavigation();
     const [profiles, setProfiles] = useState([]);
-    const [match, setMatch] = useState('');
     const { id } = route.params;
 
     function navigatePerfil() {
@@ -19,10 +18,11 @@ export default function Home({ route }) {
     }
 
     function navigateMatchList() {
-        navigation.navigate('ListaMatch', {id})
+        navigation.navigate('ListaMatch', { id })
     }
 
     useEffect(() => {
+        let mounted = true;
         async function loadUsers() {
             try {
                 const response = await api.get('/profile/list', {
@@ -30,14 +30,17 @@ export default function Home({ route }) {
                         user: id,
                     }
                 });
-                setProfiles(response.data);
+                if (mounted) {
+                    setProfiles(response.data);
+                }
             } catch (err) {
-                Alert.alert('algo deu errado')
+                console.log(err.response.data)
             }
-
         }
         loadUsers();
-    }, [id]);
+        return () => mounted = false;
+
+    }, []);
 
     async function handleLogout() {
         await AsyncStorage.clear();
@@ -73,7 +76,7 @@ export default function Home({ route }) {
         setProfiles(rest);
     }
 
-    const createTwoButtonAlert = () =>
+    function createTwoButtonAlert() {
         Alert.alert(
             "Logout",
             "Deseja sair de sua conta?",
@@ -83,9 +86,13 @@ export default function Home({ route }) {
                     onPress: () => { },
                     style: "cancel"
                 },
-                { text: "Sim", onPress: handleLogout }
-            ]
+                {
+                    text: "Sim",
+                    onPress: handleLogout
+                }
+            ],
         );
+    }
 
     return (
         <SafeAreaView style={styles.container}>
@@ -107,7 +114,7 @@ export default function Home({ route }) {
                         ))
                     )}
             </View>
-            
+
             {profiles.length > 0 && (
                 <View style={styles.buttonsContainer} >
                     <TouchableOpacity style={styles.button} onPress={handleLike}>
@@ -119,20 +126,19 @@ export default function Home({ route }) {
                     </TouchableOpacity>
                 </View>
             )}
-            
-            <View style={{ paddingTop: 10, paddingBottom: 10, flexDirection: 'row', justifyContent: 'space-around', borderWidth: 1, borderColor: 'rgb(196, 196, 196)', backgroundColor: '#fff' }}>
 
+            <View style={{ paddingTop: 10, paddingBottom: 10, flexDirection: 'row', justifyContent: 'space-around', borderWidth: 1, borderColor: 'rgb(196, 196, 196)', backgroundColor: '#fff' }}>
                 <View>
                     <TouchableOpacity onPress={navigateMatchList}>
                         <Ionicons name="ios-chatbubbles-outline" size={28} color="#808080" />
                     </TouchableOpacity>
                 </View>
+
                 <View >
                     <TouchableOpacity onPress={handleRefresh}>
                         <AntDesign name="home" size={31} color="#808080" />
                     </TouchableOpacity>
                 </View>
-
 
                 <View>
                     <TouchableOpacity onPress={navigatePerfil}>

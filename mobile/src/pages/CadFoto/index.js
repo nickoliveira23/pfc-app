@@ -1,34 +1,28 @@
 import React, { useState, useEffect } from 'react';
-import {View, Text, TouchableOpacity, Alert } from 'react-native';
+import { View, TouchableOpacity, Alert } from 'react-native';
 import { EvilIcons } from '@expo/vector-icons';
 import * as ImagePicker from "expo-image-picker";
 import { useNavigation } from '@react-navigation/native';
-import styles from './styles'
 import api from '../../services/api';
 
-export default function CadFoto({ route, navigation }){
-    const [picturePreview, setPicturePreview] = useState("");
+export default function CadFoto({ route }) {
+    const navigation = useNavigation();
     const [id, setId] = useState('');
-    // const [types, setTypes] = useState(false);
-    // function handleSelectTypeImage() {
-    //     setTypes(true);
-    // }
 
-    useEffect (() => {
-        async function SampleComponent() {
+
+    useEffect(() => {
+        async function GetIdData() {
             setId(route.params);
         }
-        SampleComponent()
+        GetIdData()
     });
 
-    async function UploadImage(imagem_recebida){
+    async function handleImage(imagem_recebida) {
         try {
-            //const userAuthToken = "TOKEN_DE_ACESSO_A_API";
             const requestConfigFile = {
-              headers: {
-                //Authorization: `bearer ${userAuthToken}`,
-                "Content-Type": "multipart/form-data"
-              }
+                headers: {
+                    "Content-Type": "multipart/form-data"
+                }
             };
 
             const dataFile = new FormData();
@@ -37,76 +31,45 @@ export default function CadFoto({ route, navigation }){
             const ext = fileURL.split(".").pop();
 
             dataFile.append("image", {
-                uri: fileURL, // Caminho da imagem
+                uri: fileURL,
                 name: fileName,
                 type: "image/" + ext
             });
 
             const obj = JSON.stringify(id)
             const idString = JSON.parse(obj).id
-            
+
             const response = await api.post(`/upload-image/${idString}`, dataFile, requestConfigFile);
-            
+
             navigation.reset({
                 index: 0,
                 routes: [{ name: 'Index' }],
-              });
-        
+            });
+
         } catch (err) {
             Alert.alert(err.response.data.mensagem);
-        } 
+        }
     }
 
-    // async function handleSelectCamera() {
-    //     setTypes(false);
-    //     const result = await ImagePicker.launchCameraAsync({
-    //       mediaTypes: ImagePicker.MediaTypeOptions.Images,
-    //       allowsEditing: true,
-    //     })
-
-    //     setPicturePreview(result.uri);
-    //     UploadImage(result);
-    // }
-      
-    async function handleSelectGalery() {
-        // setTypes(false);
+     async function handleSelectGalery() {
         const result = await ImagePicker.launchImageLibraryAsync({
-          mediaTypes: ImagePicker.MediaTypeOptions.Images,
-          allowsEditing: true,
+            mediaTypes: ImagePicker.MediaTypeOptions.Images,
+            allowsEditing: true,
         });
 
         if (result.cancelled) {
             return;
         } else {
-            setPicturePreview(result.uri);
-            UploadImage(result);
+            handleImage(result);
         }
     }
     return (
-        <View style={{justifyContent: 'center', flex:1}}>
-            <View style={{alignItems:'center'}}>
+        <View style={{ justifyContent: 'center', flex: 1 }}>
+            <View style={{ alignItems: 'center' }}>
                 <TouchableOpacity onPress={() => handleSelectGalery()}>
-                    <EvilIcons name="user" size={150} color="rgba(0,0,0, 0.75)" style={{paddingBottom:15}}/>
+                    <EvilIcons name="user" size={150} color="rgba(0,0,0, 0.75)" style={{ paddingBottom: 15 }} />
                 </TouchableOpacity>
             </View>
-            
-                
-        {/* {types && (
-            <View style={{flexDirection:'row', justifyContent:'space-between' }}>
-                <View style={{paddingTop:5, paddingLeft: 80, paddingBottom: 5}}>
-                    <TouchableOpacity  onPress={handleSelectGalery} >
-                        <Text style={{color:'#ff8c00ad'}}>Galeria</Text>
-                    </TouchableOpacity>
-                </View>
-                <View style={{paddingTop:5, paddingRight: 80, paddingBottom: 5}}>
-                    <TouchableOpacity onPress={handleSelectCamera}>
-                        <Text style={{color:'#ff8c00ad'}}>Câmera</Text>
-                    </TouchableOpacity>
-                </View>
-                    
-            </View>
-        )}   */}
-        </View>  
-        
+        </View>
     );
 }

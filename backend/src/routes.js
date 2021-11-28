@@ -1,11 +1,12 @@
 const express = require('express');
 
-const authMiddle = require('./middlewares/auth');
-const uploadProfile = require('./middlewares/uploadImage');
+const auth = require('./middlewares/authMiddleware');
+const upload = require('./middlewares/uploadImage');
 
 const UserController = require('./controllers/UserController');
 const SessionController = require('./controllers/SessionController');
 const ProfileController = require('./controllers/ProfileController');
+const PictureController = require('./controllers/PictureController');
 const LikeController = require('./controllers/LikeController');
 const NopeController = require('./controllers/NopeController');
 
@@ -13,34 +14,25 @@ const routes = express.Router();
 
 routes.get('/user/list', UserController.index);
 routes.post('/user/register', UserController.create);
-routes.get('/user/listAll', UserController.indexUserProfile);
-routes.post('/user/emailVerify', UserController.verifyEmail);
-routes.post('/user/passwordVerify', UserController.verifyPassword);
-routes.post('/user/redefinicao', UserController.redefinicao);
-routes.put('/user/update', UserController.redefinirSenha);
+routes.post('/user/emailVerify', UserController.validateEmail);
+routes.post('/user/passwordVerify', UserController.validatePassword);
+
 routes.post('/session', SessionController.login);
 
 routes.post('/profile/register', ProfileController.create);
-routes.get('/profile/list', ProfileController.index);
-routes.get('/profile/match', ProfileController.listMatch);
-routes.get('/profile/:id', ProfileController.indexById);
-routes.put('/profile/update/:id', ProfileController.updateProfile);
-routes.post('/profile/verify', ProfileController.verify);
+routes.get('/profile/list', auth, ProfileController.index);
+routes.get('/profile/match', auth, ProfileController.listMatch);
+routes.get('/profile/:id', auth, ProfileController.indexById);
+routes.put('/profile/update/:id', auth, ProfileController.updateProfile);
+routes.post('/profile/verify', ProfileController.validate);
 
-routes.post('/upload-image/:id_profile', uploadProfile.single('image'), ProfileController.uploadPicture);
-routes.put('/update-image/:id_profile', uploadProfile.single('image'), ProfileController.updatePicture);
-routes.get('/show-picture/:id', ProfileController.showPic);
+routes.post('/upload-image/:id_profile', upload.single('image'), PictureController.uploadPicture);
+routes.put('/update-image/:id_profile', auth, upload.single('image'), PictureController.updatePicture);
+routes.get('/show-picture/:id', PictureController.showPicture);
 
-routes.post('/like/:userId', LikeController.store);
-routes.post('/nope/:userId', NopeController.store);
+routes.post('/like/:userId', auth, LikeController.store);
+routes.post('/nope/:userId', auth, NopeController.store);
 
-routes.get('/like/list', LikeController.index);
-routes.get('/nope/list', NopeController.index);
-routes.delete('/cancelMatch/:target', LikeController.cancelMatch);
-
-
-routes.get("/test", authMiddle, (req, res) => {
-  res.send('Very secret number 10!');
-})
+routes.delete('/cancelMatch/:target', auth, LikeController.cancelMatch);
 
 module.exports = routes;

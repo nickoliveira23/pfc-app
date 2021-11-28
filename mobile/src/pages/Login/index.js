@@ -13,7 +13,7 @@ export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState(null);
-  // const [loggedInUser, setLoggedInUser] = useState(null);
+  const [loggedInUser, setLoggedInUser] = useState(null);
 
   function navigateBack() {
     navigation.goBack()
@@ -23,20 +23,19 @@ export default function Login() {
     try {
       const response = await api.post('/session', {
         email: email,
-        //password: password
-        password: '123Teste456!'
+        password: password
       });
 
-      const { user, token } = response.data;
+      const { user, token, message } = response.data;
 
       await AsyncStorage.multiSet([
         ['@CodeApi:user', JSON.stringify(user)],
         ['@CodeApi:token', token],
       ]);
 
-      // setLoggedInUser(user);
+      setLoggedInUser(user);
 
-      Alert.alert('Login efetuado com sucesso!');
+      Alert.alert(message);
 
       const idObj = JSON.stringify(user);
       const { id } = JSON.parse(idObj);
@@ -49,20 +48,23 @@ export default function Login() {
     } catch (err) {
       setErrorMessage(err.response.data.error);
     }
-  };
+  }
 
-  // useEffect(() => {
-  //   async function GoToNextScreen() {
-  //     const token = await AsyncStorage.getItem('@CodeApi:token');
-  //     const user = JSON.parse(await AsyncStorage.getItem('@CodeApi:user'));
+  useEffect(() => {
+    async function GoToNextScreen() {
+      const token = await AsyncStorage.getItem('@CodeApi:token');
+      const user = JSON.parse(await AsyncStorage.getItem('@CodeApi:user'));
 
-  //     if(token && user) {
-  //       setLoggedInUser(user);
-  //       navigateHome();
-  //     } 
-  //   }
-  //   GoToNextScreen();
-  // });
+      if (token && user) {
+        setLoggedInUser(user);
+        navigation.reset({
+          index: 0,
+          routes: [{ name: 'Home', params: { id: user.id } }],
+        });
+      }
+    }
+    GoToNextScreen();
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -84,7 +86,6 @@ export default function Login() {
           </View>
           <View style={styles.areaConfirmar}>
             {!!errorMessage && <Text style={{ color: '#FF0000', marginBottom: 20 }}>{errorMessage} </Text>}
-            {/* !!loggedInUser && <Text style={{color: '#0000FF', marginBottom: 20}}>{ loggedInUser.email } </Text> */}
             <TouchableOpacity onPress={signIn} style={[styles.botao, { width: 300, borderColor: 'rgb(195,195,197)', backgroundColor: null, marginBottom: 50 }]}>
               <Text style={{ color: '#707070' }}>Confirmar</Text>
             </TouchableOpacity>

@@ -9,6 +9,5 @@ export default function App() {
       <StatusBar barStyle='dark-content'></StatusBar>
       <Routes />
     </>
-
   );
 }

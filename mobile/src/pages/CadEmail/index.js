@@ -33,9 +33,6 @@ export default function CadEmail() {
       const response = await api.post('/user/emailVerify', {
         email: email
       });
-      // const response = await api.post('/user/emailVerify', {
-      //   email: 'nickolas.oliveira02@gmail.com'
-      // });
 
       const user = response.data;
 
@@ -47,7 +44,6 @@ export default function CadEmail() {
       });
 
       navigateSenha();
-
     } catch (err) {
       setErrorMessage(err.response.data.error);
       Alert.alert(err.response.data.error);
@@ -67,9 +63,6 @@ export default function CadEmail() {
             <TextInput autoCapitalize="none" autoCorrect={false} style={{ fontSize: 13 }} value={email} onChangeText={email => setEmail(email)} placeholder='Email                                                 ' />
           </View>
         </View>
-        {/* <View style={{ alignItems: 'center', marginTop: 30 }}>
-          <Text style={styles.txtCodigo}>Vamos te enviar um email com o código de confirmação, verifiquei sua caixa de entrada :)</Text>
-        </View> */}
         <View style={styles.area2}>
           {!!errorMessage && <Text style={{ color: '#FF0000', marginBottom: 20 }}>{errorMessage} </Text>}
           <TouchableOpacity onPress={handleEmail} style={[styles.botao, { borderColor: '#707070', backgroundColor: null, marginBottom: 50 }]}>

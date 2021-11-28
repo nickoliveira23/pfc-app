@@ -1,118 +1,6 @@
 const connection = require('../database/connection');
-const fs = require('fs');
-
 
 module.exports = {
-    async showPic(request, response) {
-        try {
-            const { id } = request.params;
-
-            const picture = await connection('picture')
-                .where('id_profile', id)
-                .select('*')
-                .first();
-
-            if (picture) {
-                const filename = picture.filename;
-                const filepath = picture.destination;
-
-                return response.sendFile(filename, { root: filepath });
-            } else {
-                return response.status(404).json({ mensagem: 'Imagem não encontrada!' })
-            }
-        } catch (err) {
-            console.log(err)
-        }
-    },
-
-    async uploadPicture(request, response) {
-        try {
-            if (request.file) {
-
-                const { fieldname, originalname, encoding, mimetype, destination,
-                    filename, path, size } = request.file;
-
-                const { id_profile } = request.params;
-
-
-                const [id] = await connection('picture').insert({
-                    fieldname,
-                    originalname,
-                    encoding,
-                    mimetype,
-                    destination,
-                    filename,
-                    path,
-                    size,
-                    id_profile
-                })
-
-                return response.status(200).json({
-                    erro: false,
-                    mensagem: 'Upload realizado com sucesso',
-                    id
-
-                })
-            }
-            return response.status(400).json({
-                erro: true,
-                mensagem: 'Upload não realizado com sucesso'
-            });
-        } catch (err) {
-            console.log(err);
-        }
-
-    },
-
-    async updatePicture(request, response) {
-        try {
-            if (request.file) {
-
-                const { fieldname, originalname, encoding, mimetype, destination,
-                    filename, path, size } = request.file;
-
-                const { id_profile } = request.params;
-
-                const caminho = await connection('picture')
-                    .where('id_profile', id_profile)
-                    .first();
-
-                fs.unlink(caminho.path, (err) => {
-                    if (err) {
-                        console.error(err)
-                        return
-                    }
-                })
-
-                await connection('picture')
-                    .update({
-                        fieldname,
-                        originalname,
-                        encoding,
-                        mimetype,
-                        destination,
-                        filename,
-                        path,
-                        size,
-                        id_profile
-                    })
-                    .where({ id_profile })
-
-                return response.status(200).json({
-                    erro: false,
-                    mensagem: 'Upload realizado com sucesso',
-                })
-                console.log('ok')
-            }
-            return response.status(400).json({
-                erro: true,
-                mensagem: 'Upload não realizado com sucesso'
-            });
-        } catch (err) {
-            console.log(err);
-        }
-    },
-
     async index(request, response) {
         try {
             const { user } = request.headers;
@@ -250,64 +138,80 @@ module.exports = {
 
     async updateProfile(request, response) {
         try {
-            const { name, whatsapp, age, gender, city,
-                uf, goal, biography } = request.body;
+            const {
+                name,
+                whatsapp,
+                age,
+                gender,
+                biography,
+                goal,
+                city,
+                uf
+            } = request.body;
 
             const { id } = request.params;
 
             const { id_user } = request.params;
 
-            await connection('profile')
+            const profile = await connection('profile')
                 .update({
                     name,
                     whatsapp,
                     age,
                     gender,
+                    biography,
+                    goal,
                     city,
                     uf,
-                    goal,
-                    biography,
                     id_user
                 })
                 .where({ id })
 
-            return response.json('ok');
+            return response.json(profile);
 
         } catch (err) {
             return response.status(500).json({ error: 'Erro ao atualizar informações de perfil!' });
         }
     },
 
-    async verify(request, response) {
+    async validate(request, response) {
         try {
-            const { name, whatsapp, age, gender, city,
-                uf, goal, biography } = request.body;
+            const {
+                name,
+                whatsapp,
+                age,
+                gender,
+                biography,
+                goal,
+                city,
+                uf
+            } = request.body;
 
             if (name !== "") {
-                if (gender !== "") {
-                    if (goal !== "") {
-                        if (age < 61 && age > 17) {
-                            if (uf.length == 2 || uf == "") {
-                                if (biography.length < 151) {
-                                    if (whatsapp.length == 11) {
-                                        return response.json();
+                if (whatsapp.length == 11) {
+                    if (age < 80 && age > 17) {
+                        if (gender !== "") {
+                            if (biography.length < 151) {
+                                if (goal !== "") {
+                                    if (uf.length == 2 || uf == "") {
+                                        return response.json({ message: "Atualizado com sucesso!"});
                                     } else {
-                                        return response.status(400).json({ error: 'Número de telefone inválido!' })
+                                        return response.status(400).json({ error: 'UF só pode conter 2 dígitos!' })
                                     }
                                 } else {
-                                    return response.status(400).json({ error: 'Biografia não pode ter mais do que 150 caracteres!' });
+                                    return response.status(400).json({ error: 'Preencha o campo "Mostrar"!' });
                                 }
                             } else {
-                                return response.status(400).json({ error: 'UF só pode conter 2 dígitos!' })
+                                return response.status(400).json({ error: 'Biografia não pode ter mais do que 150 caracteres!' })
                             }
                         } else {
-                            return response.status(400).json({ error: 'Idade não está de acordo com os termos de uso do aplicativo!' });
+                            return response.status(400).json({ error: 'Selecione um gênero!' });
                         }
                     } else {
-                        return response.status(400).json({ error: 'Preencha o campo "Mostrar"!' });
+                        return response.status(400).json({ error: 'Idade não está de acordo com os termos de uso do aplicativo!' });
                     }
                 } else {
-                    return response.status(400).json({ error: 'Selecione um gênero!' });
+                    return response.status(400).json({ error: 'Número de telefone inválido!' });
                 }
             } else {
                 return response.status(400).json({ error: 'Digite um nome!' });
@@ -317,3 +221,127 @@ module.exports = {
         }
     }
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// if (name !== "") {
+//     if (gender !== "") {
+//         if (goal !== "") {
+//             if (age < 61 && age > 17) {
+//                 if (uf.length == 2 || uf == "") {
+//                     if (biography.length < 151) {
+//                         if (whatsapp.length == 11) {
+//                             return response.json();
+//                         } else {
+//                             return response.status(400).json({ error: 'Número de telefone inválido!' })
+//                         }
+//                     } else {
+//                         return response.status(400).json({ error: 'Biografia não pode ter mais do que 150 caracteres!' });
+//                     }
+//                 } else {
+//                     return response.status(400).json({ error: 'UF só pode conter 2 dígitos!' })
+//                 }
+//             } else {
+//                 return response.status(400).json({ error: 'Idade não está de acordo com os termos de uso do aplicativo!' });
+//             }
+//         } else {
+//             return response.status(400).json({ error: 'Preencha o campo "Mostrar"!' });
+//         }
+//     } else {
+//         return response.status(400).json({ error: 'Selecione um gênero!' });
+//     }
+// } else {
+//     return response.status(400).json({ error: 'Digite um nome!' });
+// }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// if (name !== "") {
+//     if (whatsapp.length == 11) {
+//         if (age < 61 && age > 17) {
+//             if (gender !== "") {
+//                 if (biography.length < 151) {
+//                     if (goal !== "") {
+//                         if (uf.length == 2 || uf == "") {
+//                             return response.json();
+//                         } else {
+//                             return response.status(400).json({ error: 'UF só pode conter 2 dígitos!' })
+//                         }
+//                     } else {
+//                         return response.status(400).json({ error: 'Preencha o campo "Mostrar"!' });
+//                     }
+//                 } else {
+//                     return response.status(400).json({ error: 'Biografia não pode ter mais do que 150 caracteres!' })
+//                 }
+//             } else {
+//                 return response.status(400).json({ error: 'Selecione um gênero!' });
+//             }
+//         } else {
+//             return response.status(400).json({ error: 'Idade não está de acordo com os termos de uso do aplicativo!' });
+//         }
+//     } else {
+//         return response.status(400).json({ error: 'Número de telefone inválido!' });
+//     }
+// } else {
+//     return response.status(400).json({ error: 'Digite um nome!' });
+// }
