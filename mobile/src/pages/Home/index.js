@@ -40,7 +40,7 @@ export default function Home({ route }) {
         loadUsers();
         return () => mounted = false;
 
-    }, []);
+    }, [id]);
 
     async function handleLogout() {
         await AsyncStorage.clear();

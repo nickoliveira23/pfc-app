@@ -170,7 +170,7 @@ export default function Perfil() {
                         <View style={{ flexDirection: 'row' }}>
                             <Text style={styles.titulos}>   CELULAR *</Text>
                         </View>
-                        <TextInput keyboardType='numeric' clearButtonMode='always' style={styles.textInput} maxLength={11} placeholder='Adicione seu número de celular' value={whatsapp} onChangeText={whatsapp => SetWhatsapp(whatsapp)} />
+                        <TextInput keyboardType='numeric' clearButtonMode='always' style={styles.textInput} maxLength={11} placeholder='Adicione seu número de celular' value={whatsapp} onChangeText={whatsapp => setWhatsapp(whatsapp)} />
                     </View>
                     <View style={{ marginTop: 10, borderBottomWidth: 1, borderBottomColor: '#CCCCCC', paddingBottom: 15 }}>
                         <View style={{ flexDirection: 'row' }}>

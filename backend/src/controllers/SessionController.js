@@ -17,7 +17,7 @@ module.exports = {
             if (user) {
                 const validPass = await bcrypt.compare(password, user.password);
                 if (validPass) {
-                    const token = jwt.sign({ email: email }, 'superSecretThing', { expiresIn: 1200 });
+                    const token = jwt.sign({ email: email }, 'superSecretThing', { expiresIn: 120000 });
                     return response.json({ user, token: token, message: 'Login realizado com sucesso!' });
                 } else {
                     if (validPass == '') {
