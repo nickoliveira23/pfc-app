@@ -35,6 +35,10 @@ export default function Detail({ route }) {
         }
     }
 
+    function handleWhatsapp () {
+        Linking.openURL('https://api.whatsapp.com/send?phone=' + 55 + profile.whatsapp)
+    }
+
     const createTwoButtonAlert = () =>
         Alert.alert(
             "Desfazer Match",
@@ -105,7 +109,7 @@ export default function Detail({ route }) {
                     <Text style={styles.optionTitle}>Entre em contato:</Text>
 
                     <View style={styles.actions}>
-                        <TouchableOpacity style={styles.actionWhatsapp} onPress={() => Linking.openURL('https://api.whatsapp.com/send?phone=' + 55 + profile.whatsapp)}>
+                        <TouchableOpacity style={styles.actionWhatsapp} onPress={handleWhatsapp}>
                             <Text style={styles.actionText}>WhatsApp</Text>
                         </TouchableOpacity>
                         <TouchableOpacity style={styles.actionDesfazer} onPress={createTwoButtonAlert}>

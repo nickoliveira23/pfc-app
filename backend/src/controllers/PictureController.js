@@ -97,13 +97,13 @@ module.exports = {
 
                 return response.status(200).json({
                     erro: false,
-                    mensagem: 'Upload realizado com sucesso',
+                    message: 'Upload realizado com sucesso',
                 })
                 console.log('ok')
             }
             return response.status(400).json({
                 erro: true,
-                mensagem: 'Upload não realizado com sucesso'
+                message: 'Upload não realizado com sucesso'
             });
         } catch (err) {
             console.log(err);

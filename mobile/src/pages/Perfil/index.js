@@ -15,7 +15,7 @@ export default function Perfil() {
         navigation.goBack()
     }
 
-    async function UploadImage(imagem_recebida) {
+    async function handleUpdateImage(imagem_recebida) {
         try {
             const requestConfigFile = {
                 headers: {
@@ -55,7 +55,7 @@ export default function Perfil() {
         if (result.cancelled) {
             return;
         } else {
-            UploadImage(result);
+            handleUpdateImage(result);
         }
     }
 
