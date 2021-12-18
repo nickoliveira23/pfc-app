@@ -13,12 +13,12 @@ export default function Home({ route }) {
     const [profiles, setProfiles] = useState([]);
     const { id } = route.params;
 
-    function navigatePerfil() {
-        navigation.navigate('Perfil')
+    function navigateUserProfile() {
+        navigation.navigate('UserProfile')
     }
 
     function navigateMatchList() {
-        navigation.navigate('ListaMatch', { id })
+        navigation.navigate('MatchList', { id })
     }
 
     useEffect(() => {
@@ -141,7 +141,7 @@ export default function Home({ route }) {
                 </View>
 
                 <View>
-                    <TouchableOpacity onPress={navigatePerfil}>
+                    <TouchableOpacity onPress={navigateUserProfile}>
                         <Ionicons name="person-outline" size={28} color="#808080" />
                     </TouchableOpacity>
                 </View>

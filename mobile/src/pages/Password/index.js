@@ -5,38 +5,36 @@ import { AntDesign } from '@expo/vector-icons';
 import styles from './styles';
 import api from '../../services/api';
 
-export default function CadSenha() {
+export default function Password({ route }) {
 
   const navigation = useNavigation();
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState(null);
+
+  const { user } = route.params;
 
   async function navigateBack() {
     await AsyncStorage.clear();
     navigation.goBack()
   }
 
-  function navigatePerfil() {
-    navigation.navigate('CadPerfil');
-  }
-
   async function handlePassword() {
     try {
-      const credentials = {
+      const response = await api.post('/user/password', {
         password: password
-      }
-      const response = await api.post('/user/passwordVerify', credentials);
+      });
 
-      const user = response.data;
-
-      await AsyncStorage.setItem('@CodeApi:password', JSON.stringify(user));
+      const register = await api.post('/user/register', {
+        email: user,
+        password: password,
+      });
+      const { id } = register.data
 
       navigation.reset({
         index: 0,
-        routes: [{ name: 'Index' }],
+        routes: [{ name: 'Profile', params: { id: id } }],
       });
 
-      navigatePerfil();
     } catch (err) {
       setErrorMessage(err.response.data.error);
       Alert.alert(err.response.data.error);

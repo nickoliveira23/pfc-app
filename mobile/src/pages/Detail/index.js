@@ -18,6 +18,10 @@ export default function Detail({ route }) {
         navigation.goBack()
     }
 
+    function navigateFullImage() {
+        navigation.navigate('FullImage', { id: profile.id });
+    }
+
     async function cancelMatch() {
         try {
             await api.delete(`/cancelMatch/${profile.id}`, {
@@ -35,7 +39,7 @@ export default function Detail({ route }) {
         }
     }
 
-    function handleWhatsapp () {
+    function handleWhatsapp() {
         Linking.openURL('https://api.whatsapp.com/send?phone=' + 55 + profile.whatsapp)
     }
 
@@ -60,13 +64,18 @@ export default function Detail({ route }) {
                     <TouchableOpacity onPress={navigateBack}>
                         <Feather name="arrow-left" size={28} color="#000" />
                     </TouchableOpacity>
-                    <Image source={logo} style={styles.logo} />
-                    <View><Text> </Text></View>
+                    <View>
+                        <Text style={{ fontSize: 17, fontWeight: 'bold', textAlign: 'center' }}>Dados do contato</Text>
+                    </View>
+                    <View><Text>    </Text></View>
                 </View>
-                <Image source={{ uri: api.defaults.baseURL + '/show-picture/' + profile.id }} style={styles.imageCard} />
+
 
 
                 <View style={styles.profile}>
+                    <TouchableOpacity onPress={navigateFullImage}>
+                        <Image source={{ uri: api.defaults.baseURL + '/show-picture/' + profile.id }} style={styles.imageCard} />
+                    </TouchableOpacity>
                     <View style={styles.profileItem}>
                         <View>
                             <Text style={[styles.profileProperty]}>NOME</Text>

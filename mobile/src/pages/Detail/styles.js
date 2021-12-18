@@ -18,17 +18,20 @@ export default StyleSheet.create({
     header: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        alignItems: 'center'
+        alignItems: 'center',
+        marginTop: 10,
+        marginBottom: 10,
     },
 
     imageCard: {
         borderWidth: 1,
         borderColor: '#DDD',
-        borderRadius: 8,
-        marginBottom: 16,
+        borderRadius: 100,
         //resizeMode: 'contain',
-        height: 300,
-        backgroundColor: '#fff'
+        height: 100,
+        width: 100,
+        backgroundColor: '#fff',
+        alignSelf: 'center'
        
     },
 

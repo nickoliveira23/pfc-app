@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, TouchableOpacity, Alert, AsyncStorage, Image } from 'react-native';
+import Modal from "react-native-modal";
+import MaskInput from 'react-native-mask-input';
+import { View, Text, Button, TextInput, TouchableOpacity, Alert, AsyncStorage, Image } from 'react-native';
 import { Ionicons, Feather } from '@expo/vector-icons';
 import RNPickerSelect from 'react-native-picker-select';
 import { useNavigation } from '@react-navigation/native';
@@ -8,8 +10,13 @@ import styles from './styles'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import api from '../../services/api';
 
-export default function Perfil() {
+export default function UserProfile() {
     const navigation = useNavigation();
+    const [isModalVisible, setModalVisible] = useState(false);
+
+    function toggleModal() {
+        setModalVisible(!isModalVisible);
+    };
 
     function navigateBack() {
         navigation.goBack()
@@ -46,21 +53,23 @@ export default function Perfil() {
         }
     }
 
+
     async function handleSelectGalery() {
         const result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.Images,
             allowsEditing: true,
         });
-
         if (result.cancelled) {
             return;
         } else {
             handleUpdateImage(result);
         }
+
     }
 
-    function navigateHome() {
-        navigation.navigate('Home');
+    function navigateFullImage() {
+        navigation.navigate('FullImage', { id: idUser });
+        setModalVisible(false)
     }
 
     const [name, setName] = useState('');
@@ -130,7 +139,10 @@ export default function Perfil() {
 
             Alert.alert(validation.data.message)
 
-            navigateHome()
+            navigation.reset({
+                index: 0,
+                routes: [{ name: 'Home', params: { id: id } }],
+            });
         } catch (err) {
             setErrorMessage(err.response.data.error);
             Alert.alert(err.response.data.error);
@@ -138,13 +150,36 @@ export default function Perfil() {
     }
 
     return (
-        <View style={{ flex: 1 }}>
+        <View style={styles.container}>
             <View style={styles.header}>
                 <View style={{ flex: 1, alignItems: 'center' }}>
                     <TouchableOpacity onPress={navigateBack} style={{ right: 20 }}>
                         <Feather name="arrow-left" size={28} color="#000" />
                     </TouchableOpacity>
                 </View>
+
+                <Modal
+                    isVisible={isModalVisible}
+                    onBackdropPress={() => setModalVisible(false)}
+                    onSwipeComplete={() => setModalVisible(false)}
+                    swipeDirection={['down']}
+                    style={styles.modalContainer}
+                >
+                    <View style={styles.modal}>
+                        <View>
+                            <View style={styles.indicator} />
+                            <TouchableOpacity onPress={() => { }}>
+                                <Text>Alterar imagem</Text>
+                            </TouchableOpacity>
+                        </View>
+                        <View style={styles.modalItem}>
+                            <TouchableOpacity onPress={navigateFullImage}>
+                                <Text>Abrir imagem</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                </Modal>
+
                 <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                     <Text style={{ fontSize: 15, fontWeight: '600', textAlign: 'center' }}>Editar Informações</Text>
                 </View>
@@ -155,8 +190,9 @@ export default function Perfil() {
                 </View>
             </View>
             <KeyboardAwareScrollView showsVerticalScrollIndicator={false} style={styles.container}>
-                <View style={{ margin: 20, justifyContent: 'center', alignItems: 'center' }}>
-                    <TouchableOpacity onPress={() => handleSelectGalery()}>
+                <View style={{ marginBottom: 20, justifyContent: 'center', alignItems: 'center' }}>
+
+                    <TouchableOpacity onPress={toggleModal}>
                         <Image style={{ width: 100, height: 100, borderRadius: 100 }} source={{ uri: api.defaults.baseURL + '/show-picture/' + idUser }} />
                     </TouchableOpacity>
                 </View>
@@ -170,7 +206,17 @@ export default function Perfil() {
                         <View style={{ flexDirection: 'row' }}>
                             <Text style={styles.titulos}>   CELULAR *</Text>
                         </View>
-                        <TextInput keyboardType='numeric' clearButtonMode='always' style={styles.textInput} maxLength={11} placeholder='Adicione seu número de celular' value={whatsapp} onChangeText={whatsapp => setWhatsapp(whatsapp)} />
+                        <MaskInput
+                            placeholder='Adicione seu número de celular'
+                            keyboardType='numeric'
+                            style={styles.textInput}
+                            clearButtonMode='always'
+                            value={whatsapp}
+                            onChangeText={(masked, unmasked) => {
+                                setWhatsapp(unmasked); // you can use the unmasked value as well 
+                            }}
+                            mask={['(', /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]}
+                        />
                     </View>
                     <View style={{ marginTop: 10, borderBottomWidth: 1, borderBottomColor: '#CCCCCC', paddingBottom: 15 }}>
                         <View style={{ flexDirection: 'row' }}>
@@ -234,13 +280,15 @@ export default function Perfil() {
                             ]}
                         />
                     </View>
-                    <View style={{ marginTop: 10, borderBottomWidth: 1, borderBottomColor: 'rgba(0,0,0, 0.05)', paddingBottom: 15 }}>
-                        <Text style={styles.titulos}>   CIDADE</Text>
-                        <TextInput placeholderTextColor='rgba(0,0,0, 0.50)' placeholder='Adicionar Cidade' clearButtonMode='always' multiline={false} maxLength={100} style={styles.textInput} value={city} onChangeText={city => setCity(city)} />
-                    </View>
-                    <View style={{ marginTop: 10, borderBottomWidth: 1, borderBottomColor: 'rgba(0,0,0, 0.05)', paddingBottom: 15 }}>
-                        <Text style={styles.titulos}>   UF</Text>
-                        <TextInput autoCapitalize='characters' placeholderTextColor='rgba(0,0,0, 0.50)' placeholder='Adicionar Uf' clearButtonMode='always' multiline={false} maxLength={2} style={styles.textInput} value={uf} onChangeText={uf => setUf(uf)} />
+                    <View style={styles.location}>
+                        <View style={{ flex: 1, marginTop: 10, borderBottomWidth: 1, borderBottomColor: 'rgba(0,0,0, 0.05)', paddingBottom: 15 }}>
+                            <Text style={styles.titulos}>   CIDADE</Text>
+                            <TextInput placeholderTextColor='rgba(0,0,0, 0.50)' placeholder='Adicionar Cidade' clearButtonMode='always' multiline={false} maxLength={100} style={styles.textInput} value={city} onChangeText={city => setCity(city)} />
+                        </View>
+                        <View style={{ width: 60, marginLeft: 20, marginTop: 10, borderBottomWidth: 1, borderBottomColor: 'rgba(0,0,0, 0.05)', paddingBottom: 15 }}>
+                            <Text style={styles.titulos}>   UF</Text>
+                            <TextInput autoCapitalize='characters' placeholderTextColor='rgba(0,0,0, 0.50)' placeholder='UF' clearButtonMode='always' multiline={false} maxLength={2} style={styles.textInput} value={uf} onChangeText={uf => setUf(uf)} />
+                        </View>
                     </View>
                 </View>
             </KeyboardAwareScrollView>

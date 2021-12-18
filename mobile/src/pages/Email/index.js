@@ -5,7 +5,7 @@ import { AntDesign, Ionicons } from '@expo/vector-icons';
 import styles from './styles'
 import api from '../../services/api';
 
-export default function CadEmail() {
+export default function Email() {
 
   const navigation = useNavigation();
   const [email, setEmail] = useState('');
@@ -24,26 +24,20 @@ export default function CadEmail() {
     navigation.goBack()
   }
 
-  function navigateSenha() {
-    navigation.navigate('CadSenha');
-  }
-
   async function handleEmail() {
     try {
-      const response = await api.post('/user/emailVerify', {
+      const response = await api.post('/user/email', {
         email: email
       });
 
-      const user = response.data;
-
-      await AsyncStorage.setItem('@CodeApi:email', JSON.stringify(user))
+      const user = response.data.email;
 
       navigation.reset({
         index: 0,
         routes: [{ name: 'Index' }],
       });
 
-      navigateSenha();
+      navigation.navigate('Password', { user });
     } catch (err) {
       setErrorMessage(err.response.data.error);
       Alert.alert(err.response.data.error);
