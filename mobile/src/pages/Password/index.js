@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
-import { View, Text, ScrollView, TextInput, TouchableOpacity, AsyncStorage, Alert } from 'react-native';
+import { View, Text, ScrollView, TextInput, TouchableOpacity, Alert } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { AntDesign } from '@expo/vector-icons';
 import styles from './styles';
 import api from '../../services/api';

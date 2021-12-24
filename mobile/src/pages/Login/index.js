@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
-import { View, Text, ScrollView, TextInput, TouchableOpacity, AsyncStorage, Alert } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, Alert } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Ionicons, Fontisto, AntDesign } from '@expo/vector-icons';
 
 import styles from './styles';
@@ -52,10 +53,10 @@ export default function Login() {
 
   return (
     <View style={styles.container}>
+      <TouchableOpacity style={styles.header} onPress={navigateBack}>
+        <AntDesign name='left' size={30} color='#252525' />
+      </TouchableOpacity>
       <View style={styles.elements}>
-        <View style={styles.header}>
-          <AntDesign name='left' size={30} color='#252525' onPress={navigateBack} />
-        </View>
         <Text style={styles.title}>Login</Text>
         <View style={styles.inputArea}>
           <View style={styles.inputText}>
@@ -73,10 +74,10 @@ export default function Login() {
         </View>
         <View style={styles.confirmation}>
           {!!errorMessage && <Text style={{ color: '#FF0000', marginBottom: 20 }}>{errorMessage} </Text>}
-          <TouchableOpacity onPress={signIn} style={[styles.botao, { width: 300, borderColor: 'rgb(195,195,197)', backgroundColor: null, marginBottom: 50 }]}>
-            <Text style={{ color: '#707070' }}>Confirmar</Text>
+          <TouchableOpacity onPress={signIn} style={[styles.button, { width: 300, borderColor: 'rgb(195,195,197)', backgroundColor: null, marginBottom: 50 }]}>
+            <Text style={styles.textButton}>Confirmar</Text>
           </TouchableOpacity>
-            <Text style={styles.txtCodigo}>Lembre-se, não informe sua senha para ninguém!</Text>
+          <Text style={styles.alertMessage}>Lembre-se, não informe sua senha para ninguém!</Text>
         </View>
       </View>
     </View>

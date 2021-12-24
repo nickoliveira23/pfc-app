@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
 import {
-  Linking,
-  ScrollView,
   Text,
   TouchableOpacity,
   ImageBackground,

@@ -73,9 +73,8 @@ const styles = StyleSheet.create({
     modal: {
         bottom: 0,
         position: 'absolute',
-        height: '40%',
+        height: '35%',
         backgroundColor: '#DCDCDC',
-        opacity: 0.9,
         width: '100%',
         borderTopLeftRadius: 20,
         borderTopRightRadius: 20,
@@ -91,6 +90,30 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         marginTop: 5
     },
+
+    modalElements: {
+        marginTop: 15
+    },
+
+    modalItem: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginTop: 15
+    },
+
+    modalText: {
+        fontSize: 18,
+        marginLeft: 10
+    },
+
+    modalIcons: {
+        backgroundColor: '#C3C3C3',
+        width: 40,
+        height: 40,
+        borderRadius: 100,
+        alignItems: 'center',
+        justifyContent: 'center',
+    }
 
 })
 

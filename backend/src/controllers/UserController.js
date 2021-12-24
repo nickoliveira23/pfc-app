@@ -1,20 +1,13 @@
 const connection = require('../database/connection');
-
 const bcrypt = require('bcryptjs');
-
 const jwt = require('jsonwebtoken');
 
 module.exports = {
     async index(request, response) {
-        try {
-            const user = await connection('user')
+        const user = await connection('user')
             .select('*');
-
-            return response.json(user)
-        } catch (err) {
-            console.log(err);
-            return response.status(500).send('Algo deu errado!');
-        }
+            
+        return response.json(user)
     },
 
     async create(request, response) {
@@ -28,8 +21,8 @@ module.exports = {
                 password: hash,
             });
 
-            const token = jwt.sign({ email: email }, 'superSecretThing');
-            return response.json({ id, token: token });
+            // const token = jwt.sign({ email: email }, 'superSecretThing');
+            return response.json({ id });
 
         } catch (err) {
             console.log(err);

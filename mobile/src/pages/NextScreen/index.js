@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
-import { View, AsyncStorage, ActivityIndicator } from 'react-native';
+import { View, ActivityIndicator } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 export default function NextScreen() {
     const navigation = useNavigation();

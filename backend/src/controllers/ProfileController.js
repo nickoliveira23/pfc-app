@@ -187,31 +187,48 @@ module.exports = {
                 uf
             } = request.body;
 
+            const numeros = /[0-9]/;
+            const caracteresEspeciais = /[!|@|#|$|%|^|&|*|(|)|-|_]/;
+            var auxNumero = 0;
+            var auxEspecial = 0;
+
+
+            for (var i = 0; i < name.length; i++) {
+                if (numeros.test(name[i]))
+                    auxNumero++;
+                else if (caracteresEspeciais.test(name[i]))
+                    auxEspecial++;
+            }
+
             if (name !== "") {
-                if (whatsapp.length == 11) {
-                    if (age < 80 && age > 17) {
-                        if (gender !== "") {
-                            if (biography.length < 151) {
-                                if (goal !== "") {
-                                    if (uf.length == 2 || uf == "") {
-                                        return response.json({ message: "Atualizado com sucesso!"});
+                if (auxNumero == 0 && auxEspecial == 0) {
+                    if (whatsapp.length == 11) {
+                        if (age < 80 && age > 17) {
+                            if (gender !== "") {
+                                if (biography.length < 151) {
+                                    if (goal !== "") {
+                                        if (uf.length == 2 || uf == "") {
+                                            return response.json({ message: "Atualizado com sucesso!" });
+                                        } else {
+                                            return response.status(400).json({ error: 'UF só pode conter 2 dígitos!' })
+                                        }
                                     } else {
-                                        return response.status(400).json({ error: 'UF só pode conter 2 dígitos!' })
+                                        return response.status(400).json({ error: 'Preencha o campo "Mostrar"!' });
                                     }
                                 } else {
-                                    return response.status(400).json({ error: 'Preencha o campo "Mostrar"!' });
+                                    return response.status(400).json({ error: 'Biografia não pode ter mais do que 150 caracteres!' })
                                 }
                             } else {
-                                return response.status(400).json({ error: 'Biografia não pode ter mais do que 150 caracteres!' })
+                                return response.status(400).json({ error: 'Selecione um gênero!' });
                             }
                         } else {
-                            return response.status(400).json({ error: 'Selecione um gênero!' });
+                            return response.status(400).json({ error: 'Idade não está de acordo com os termos de uso do aplicativo!' });
                         }
                     } else {
-                        return response.status(400).json({ error: 'Idade não está de acordo com os termos de uso do aplicativo!' });
+                        return response.status(400).json({ error: 'Número de telefone inválido!' });
                     }
                 } else {
-                    return response.status(400).json({ error: 'Número de telefone inválido!' });
+                    return response.status(400).json({ error: 'Formato de nome inválido' });
                 }
             } else {
                 return response.status(400).json({ error: 'Digite um nome!' });

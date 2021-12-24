@@ -2,9 +2,6 @@ import React from 'react';
 import { Feather } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { View, Text, Image, TouchableOpacity } from 'react-native';
-
-import logo from '../../assets/whitelogo3x.png';
-
 import styles from './styles';
 import api from '../../services/api';
 

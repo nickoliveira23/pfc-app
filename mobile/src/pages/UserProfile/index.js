@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import Modal from "react-native-modal";
 import MaskInput from 'react-native-mask-input';
-import { View, Text, Button, TextInput, TouchableOpacity, Alert, AsyncStorage, Image } from 'react-native';
-import { Ionicons, Feather } from '@expo/vector-icons';
+import { View, Text, TextInput, TouchableOpacity, Alert, Image } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Ionicons, Feather, Entypo, FontAwesome5, MaterialCommunityIcons } from '@expo/vector-icons';
 import RNPickerSelect from 'react-native-picker-select';
 import { useNavigation } from '@react-navigation/native';
 import * as ImagePicker from "expo-image-picker";
@@ -19,7 +20,10 @@ export default function UserProfile() {
     };
 
     function navigateBack() {
-        navigation.goBack()
+        navigation.reset({
+            index: 0,
+            routes: [{ name: 'Home', params: { id: idUser } }],
+        });
     }
 
     async function handleUpdateImage(imagem_recebida) {
@@ -45,7 +49,7 @@ export default function UserProfile() {
 
             navigation.reset({
                 index: 0,
-                routes: [{ name: 'Home', params: { id: idUser } }],
+                routes: [{ name: 'UserProfile' }],
             });
 
         } catch (err) {
@@ -62,6 +66,7 @@ export default function UserProfile() {
         if (result.cancelled) {
             return;
         } else {
+            toggleModal()
             handleUpdateImage(result);
         }
 
@@ -166,15 +171,31 @@ export default function UserProfile() {
                     style={styles.modalContainer}
                 >
                     <View style={styles.modal}>
-                        <View>
-                            <View style={styles.indicator} />
-                            <TouchableOpacity onPress={() => { }}>
-                                <Text>Alterar imagem</Text>
-                            </TouchableOpacity>
-                        </View>
-                        <View style={styles.modalItem}>
+                        <View style={styles.indicator} />
+                        <View style={styles.modalElements}>
                             <TouchableOpacity onPress={navigateFullImage}>
-                                <Text>Abrir imagem</Text>
+                                <View style={styles.modalItem}>
+                                    <View style={styles.modalIcons}>
+                                        <FontAwesome5 name="user-edit" size={18} color="#000" />
+                                    </View>
+                                    <Text style={styles.modalText}>Ver foto de perfil</Text>
+                                </View>
+                            </TouchableOpacity>
+                            <TouchableOpacity onPress={handleSelectGalery}>
+                                <View style={styles.modalItem}>
+                                    <View style={styles.modalIcons}>
+                                        <Entypo name="images" size={25} color="#000" />
+                                    </View>
+                                    <Text style={styles.modalText}>Alterar foto de perfil</Text>
+                                </View>
+                            </TouchableOpacity>
+                            <TouchableOpacity onPress={() => { }}>
+                                <View style={styles.modalItem}>
+                                    <View style={styles.modalIcons}>
+                                        <MaterialCommunityIcons name="image-remove" size={25} color="#000" />
+                                    </View>
+                                    <Text style={styles.modalText}>Remover foto de perfil</Text>
+                                </View>
                             </TouchableOpacity>
                         </View>
                     </View>

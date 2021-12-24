@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import MaskInput from 'react-native-mask-input';
-import { View, Text, TextInput, TouchableOpacity, Alert, AsyncStorage } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, Alert } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import RNPickerSelect from 'react-native-picker-select';
 import { useNavigation } from '@react-navigation/native';

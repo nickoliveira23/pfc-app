@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { SafeAreaView, Image, View, Text, TouchableOpacity, AsyncStorage, Alert } from 'react-native';
+import { SafeAreaView, Image, View, Text, TouchableOpacity, Alert } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
 import { AntDesign, Ionicons } from '@expo/vector-icons';
 import styles from './styles';
