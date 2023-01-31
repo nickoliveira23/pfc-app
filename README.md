@@ -4,7 +4,7 @@
 
 ## Introdução
 
-Este projeto foi desenvolvido como trabalho de conclusão de curso com o objetivo de criar uma ferramenta que ajude as pessoas a estabelecerem diálogos e interações sociais com outras pessoas de interesses similares ou não. Utiliza **React Native**, **NodeJS** e **SQLite** para oferecer a melhor experiência ao usuário final.
+Este projeto foi desenvolvido como trabalho de conclusão de curso e consiste em uma solução para conectar pessoas com interesses semelhantes ou diferentes e fomentar a comunicação e a interação social. Ele é construído com **React Native**, **NodeJS** e **SQLite**, garantindo uma excelente experiência para o usuário. Pode ser considerado como uma alternativa a uma rede social.
 
 ## Instalação
 
