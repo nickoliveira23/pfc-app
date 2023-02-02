@@ -32,7 +32,7 @@ Uma vez feito isso é preciso executar tanto o **backend** quanto a **aplicaçã
 - **NodeJS**
 - **SQLite3**
 -  **Bcrypt**
-   - Para a criptográfia de senhas, documentação: [link](https://github.com/kelektiv/node.bcrypt.js#readme)
+   - Para a criptografia de senhas, documentação: [link](https://github.com/kelektiv/node.bcrypt.js#readme)
 -  **Celebrate**
    - Middleware para validações, documentação: [link](https://github.com/arb/celebrate#readme)
 - **Express.js**
